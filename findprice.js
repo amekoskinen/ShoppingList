@@ -8,18 +8,24 @@ async function connectDB() {
     }
 }
 
-async function findShoppingItems() {
-    await connectDB();
-    const shoppingItems = await ShoppingList.find()
-    console.log(shoppingItems)
-    return shoppingItems;
-}
 
 async function findAllItems() {
     await connectDB();
     const allItems = await Item.find()
-    const selectedItem = await Item.find({name: 'VELTIE 8RL WC-PAPERI SOFTWHITE 3KRS'})
-    console.log(selectedItem)
+    const shoppingItems = await ShoppingList.find() 
+    for (let item of shoppingItems){
+        let product = await Item.findOne({name: item.name})
+        try{
+            console.log(product.price)
+            const update = await ShoppingList.findOneAndUpdate({name: item.name}, {price: product.price})
+            await update.save()
+        }
+        catch(err){
+            console.log(item.name)
+            console.error("CHECK!")
+        }
+    }
+    
     return allItems;
 }
 

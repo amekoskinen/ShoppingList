@@ -1,5 +1,11 @@
 const mongoose = require('mongoose')
 
+async function connectDB() {
+    if (mongoose.connection.readyState === 0) {
+        await mongoose.connect('mongodb://127.0.0.1:27017/shoppingList');
+    }
+}
+
 
 const urlSchema = new mongoose.Schema({
     name: String
@@ -7,14 +13,15 @@ const urlSchema = new mongoose.Schema({
 
 const urlAddress = mongoose.model('urlAddress', urlSchema)
 
-function seedURLaddresses(){
-urlAddress.insertMany([
+async function seedURLaddresses(){
+    await connectDB()
+    await urlAddress.insertMany([
     {name: "https://www.s-kaupat.fi/tuotteet/kodinhoito-ja-taloustarvikkeet/wc-paperit-talouspaperit-ja-nenaliinat/wc-paperit"},
     {name: "https://www.s-kaupat.fi/tuotteet/kodinhoito-ja-taloustarvikkeet/pyykinpesu/pyykinpesuaineet?page=2"},
     {name: "https://www.s-kaupat.fi/tuotteet/kodinhoito-ja-taloustarvikkeet/astianpesu/konetiskiaineet"},
     {name: "https://www.s-kaupat.fi/tuotteet/lemmikit-1/kissanruoka/kissan-markaruoka"},
     {name: "https://www.s-kaupat.fi/tuotteet/lemmikit-1/kissanhiekka-ja-kissan-tarvikkeet/kissanhiekka"},
-    {name: "https://www.s-kaupat.fi/tuotteet/lemmikit-1/kissanruoka/kissan-herkut?brand=Dogman"},
+    {name: "https://www.s-kaupat.fi/tuotteet/lemmikit-1/kissanruoka/kissan-herkut?page=2"},
     {name: "https://www.s-kaupat.fi/tuotteet/hedelmat-ja-vihannekset-1/vihannekset/kurkut"},
     {name: "https://www.s-kaupat.fi/tuotteet/hedelmat-ja-vihannekset-1/vihannekset/tomaatit"},
     {name: "https://www.s-kaupat.fi/tuotteet/hedelmat-ja-vihannekset-1/vihannekset/salaatit"},
@@ -41,6 +48,9 @@ urlAddress.insertMany([
     console.log("success")
 })
 }
+
+// seedURLaddresses()
+
 
 module.exports = mongoose.models.urlAddress || mongoose.model('urlAddress', urlSchema)
 
