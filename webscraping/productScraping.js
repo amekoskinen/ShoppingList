@@ -28,115 +28,224 @@ try {
     const $ = cheerio.load(html)
         $('.joHiJE').each((_i, el) => {
             let index = 0
-            if ($(el).text().indexOf("4") !== -1){
-                index = $(el).text().indexOf("4")
-                let product = $(el).text().substring(0,index).trim()
+            if ($(el).text().indexOf("g2") !== -1){
+                index = $(el).text().indexOf("g2")
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
-            else if ($(el).text().indexOf("8") !==-1){
-                index = $(el).text().indexOf("Suomi")
-                let product = ($(el).text().substring(0,index+5).trim())
+            else if ($(el).text().indexOf("l4") !== -1){
+                index = $(el).text().indexOf("l4")
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
-            else if ($(el).text().indexOf("l3") !==-1){
+            else if ($(el).text().indexOf("l8") !== -1){
+                index = $(el).text().indexOf("l8")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("l1") !== -1){
+                index = $(el).text().indexOf("l1")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("n3") !== -1){
+                index = $(el).text().indexOf("n3")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("n1") !== -1){
+                index = $(el).text().indexOf("n1")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("l3") !== -1){
                 index = $(el).text().indexOf("l3")
-                let product = ($(el).text().substring(0,index).trim())
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
-            else if ($(el).text().indexOf("0g") !==-1){
-                index = $(el).text().indexOf("0g")
-                let product = ($(el).text().substring(0,index+2).trim())
+            else if ($(el).text().indexOf("n4") !== -1){
+                index = $(el).text().indexOf("n4")
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
-            else if ($(el).text().indexOf(" g") !==-1){
-                index = $(el).text().indexOf(" g")
-                let product = ($(el).text().substring(0,index+2).trim())
+            else if ($(el).text().indexOf("l5") !== -1){
+                index = $(el).text().indexOf("l5")
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
-            else if ($(el).text().indexOf("1") !==-1){
-                index = $(el).text().indexOf("1")
-                let product = ($(el).text().substring(0,index-1).trim())
+            else if ($(el).text().indexOf("n8") !== -1){
+                index = $(el).text().indexOf("n8")
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
-            else if ($(el).text().indexOf("4") !==-1){
-                index = $(el).text().indexOf("4")
-                let product = ($(el).text().substring(0,index).trim())
+            else if ($(el).text().indexOf("S2") !== -1){
+                index = $(el).text().indexOf("S2")
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
-            else if ($(el).text().indexOf("3") !==-1){
-                index = $(el).text().indexOf("3")
-                let product = ($(el).text().substring(0,index).trim())
+            else if ($(el).text().indexOf("l7") !== -1){
+                index = $(el).text().indexOf("l7")
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
-            else if ($(el).text().indexOf("4") !==-1){
-                index = $(el).text().indexOf("4")
-                let product = ($(el).text().substring(0,index).trim())
+            else if ($(el).text().indexOf("l2") !== -1){
+                index = $(el).text().indexOf("l2")
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
-            
-            else if ($(el).text().indexOf("8") !==-1){
-                index = $(el).text().indexOf("8")
-                let product = ($(el).text().substring(0,index).trim())
+            else if ($(el).text().indexOf("l9") !== -1){
+                index = $(el).text().indexOf("l9")
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
-            else if ($(el).text().indexOf("2") !==-1){
-                index = $(el).text().indexOf("2")
-                let product = ($(el).text().substring(0,index).trim())
+            else if ($(el).text().indexOf("a5") !== -1){
+                index = $(el).text().indexOf("a5")
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
-            else if ($(el).text().indexOf("2") !==-1){
-                index = $(el).text().indexOf("2")
-                let product = ($(el).text().substring(0,index).trim())
+            else if ($(el).text().indexOf("e5") !== -1){
+                index = $(el).text().indexOf("e5")
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
-            else if ($(el).text().indexOf("8") !==-1){
-                index = $(el).text().indexOf("8")
-                let product = ($(el).text().substring(0,index).trim())
+            else if ($(el).text().indexOf("e2") !== -1){
+                index = $(el).text().indexOf("e2")
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
-            else if ($(el).text().indexOf("9") !==-1){
-                index = $(el).text().indexOf("9")
-                let product = ($(el).text().substring(0,index).trim())
+            else if ($(el).text().indexOf("a9") !== -1){
+                index = $(el).text().indexOf("a9")
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
-            else if ($(el).text().indexOf("5") !==-1){
-                index = $(el).text().indexOf("5")
-                
-                let product = ($(el).text().substring(0,index).trim())
-            }
-            else if ($(el).text().indexOf("7") !==-1){
-                index = $(el).text().indexOf("7")
-                let product = ($(el).text().substring(0,index).trim())
+            else if ($(el).text().indexOf("a7") !== -1){
+                index = $(el).text().indexOf("a7")
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
-            else if ($(el).text().indexOf("9") !==-1){
-                index = $(el).text().indexOf("9")
-                let product = ($(el).text().substring(0,index).trim())
+            else if ($(el).text().indexOf("a6") !== -1){
+                index = $(el).text().indexOf("a6")
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
-            else if ($(el).text().indexOf("i9") !==-1){
+            else if ($(el).text().indexOf("e7") !== -1){
+                index = $(el).text().indexOf("e7")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("e6") !== -1){
+                index = $(el).text().indexOf("e6")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("g5") !== -1){
+                index = $(el).text().indexOf("g5")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("e3") !== -1){
+                index = $(el).text().indexOf("e3")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("g3") !== -1){
+                index = $(el).text().indexOf("n3")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("e9") !== -1){
+                index = $(el).text().indexOf("e9")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("i9") !== -1){
                 index = $(el).text().indexOf("i9")
-                let product = ($(el).text().substring(0,index+1).trim())
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
-            else if ($(el).text().indexOf("i4") !==-1){
+            else if ($(el).text().indexOf("i1") !== -1){
+                index = $(el).text().indexOf("i1")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("i5") !== -1){
+                index = $(el).text().indexOf("i5")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("l6") !== -1){
+                index = $(el).text().indexOf("l6")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("a2") !== -1){
+                index = $(el).text().indexOf("a2")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("i4") !== -1){
                 index = $(el).text().indexOf("i4")
-                let product = ($(el).text().substring(0,index+1).trim())
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
-            else if ($(el).text().indexOf("a0") !==-1){
-                index = $(el).text().indexOf("a0")
-                let product = ($(el).text().substring(0,index+1).trim())
-                products.push(product)
-            }
-            else if ($(el).text().indexOf("g3") !==-1){
-                index = $(el).text().indexOf("g3")
-                let product = ($(el).text().substring(0,index+1).trim())
-                products.push(product)
-            }
-            else if ($(el).text().indexOf("g4") !==-1){
+            else if ($(el).text().indexOf("g4") !== -1){
                 index = $(el).text().indexOf("g4")
-                let product = ($(el).text().substring(0,index+1).trim())
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("a1") !== -1){
+                index = $(el).text().indexOf("a1")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("g7") !== -1){
+                index = $(el).text().indexOf("g7")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("a0") !== -1){
+                index = $(el).text().indexOf("a0")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("L1") !== -1){
+                index = $(el).text().indexOf("L1")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("k2") !== -1){
+                index = $(el).text().indexOf("k2")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("k1") !== -1){
+                index = $(el).text().indexOf("k1")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("u3") !== -1){
+                index = $(el).text().indexOf("L1")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("e1") !== -1){
+                index = $(el).text().indexOf("e1")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("e8") !== -1){
+                index = $(el).text().indexOf("e8")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("%3") !== -1){
+                index = $(el).text().indexOf("%3")
+                let product = $(el).text().substring(0,index+1).trim()
+                products.push(product)
+            }
+            else if ($(el).text().indexOf("t2") !== -1){
+                index = $(el).text().indexOf("t2")
+                let product = $(el).text().substring(0,index+1).trim()
                 products.push(product)
             }
             else{
