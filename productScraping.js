@@ -45,6 +45,6 @@ try {
         }
     }
 
-getProducts().then(prices => {
-    console.log(prices)
-})
+
+
+module.exports = getProducts

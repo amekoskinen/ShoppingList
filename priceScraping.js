@@ -37,7 +37,7 @@ async function getPrices() {
         }
 }
 
-getPrices().then(prices => {console.log(prices)})
+module.exports = getPrices
 
 
 
