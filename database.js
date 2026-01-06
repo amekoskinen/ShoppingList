@@ -26,8 +26,10 @@ async function addItems(){
             await newItem.save()
         }
     }
+    console.log("finished")
 }
 
+addItems()
 
 
 

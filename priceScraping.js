@@ -48,7 +48,7 @@ async function getPrices(url) {
         }
 }
 
-async function scrapeAll(){
+async function scrapeAllPrices(){
     await mongoose.connect('mongodb://127.0.0.1:27017/shoppingList')
     const allPrices = []
     const allAddresses = await getAllURL()
@@ -59,11 +59,11 @@ async function scrapeAll(){
     return allPrices
 }
 
-scrapeAll().then(result => {
-    console.log("DONE:", result.length, "prices")
-}).catch(console.error)
+// scrapeAll().then(result => {
+//     console.log("DONE:", result.length, "prices")
+// }).catch(console.error)
 
-module.exports = getPrices
+module.exports = scrapeAllPrices
 
 
 
