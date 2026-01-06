@@ -2,7 +2,14 @@ const axios = require('axios')
 const cheerio = require('cheerio')
 
 const mongoose = require('mongoose')
-const urlAddress = require('./urlAddresses')
+const urlAddress = require('../seeds/urlAddresses');
+const { connect } = require('puppeteer/lib/cjs/puppeteer/puppeteer.js');
+
+async function connectDB() {
+    if (mongoose.connection.readyState === 0) {
+        await mongoose.connect('mongodb://127.0.0.1:27017/shoppingList');
+    }
+}
 
 async function getAllURL() {
     const allAddresses = []
@@ -21,18 +28,19 @@ try {
     const $ = cheerio.load(html)
         $('.joHiJE').each((_i, el) => {
             let index = 0
-            if ($(el).text().indexOf("n.") !== -1){
-            index = $(el).text().indexOf("n.")
-            let product = $(el).text().substring(0,index+1).trim()
+            if ($(el).text().indexOf("4") !== -1){
+                index = $(el).text().indexOf("4")
+                let product = $(el).text().substring(0,index).trim()
+                products.push(product)
             }
-            else if ($(el).text().indexOf("Suomi") !==-1){
+            else if ($(el).text().indexOf("8") !==-1){
                 index = $(el).text().indexOf("Suomi")
                 let product = ($(el).text().substring(0,index+5).trim())
                 products.push(product)
             }
             else if ($(el).text().indexOf("l3") !==-1){
                 index = $(el).text().indexOf("l3")
-                let product = ($(el).text().substring(0,index+1).trim())
+                let product = ($(el).text().substring(0,index).trim())
                 products.push(product)
             }
             else if ($(el).text().indexOf("0g") !==-1){
@@ -47,63 +55,63 @@ try {
             }
             else if ($(el).text().indexOf("1") !==-1){
                 index = $(el).text().indexOf("1")
-                let product = ($(el).text().substring(0,index+1).trim())
+                let product = ($(el).text().substring(0,index-1).trim())
                 products.push(product)
             }
-            else if ($(el).text().indexOf("l4") !==-1){
-                index = $(el).text().indexOf("l4")
-                let product = ($(el).text().substring(0,index+1).trim())
+            else if ($(el).text().indexOf("4") !==-1){
+                index = $(el).text().indexOf("4")
+                let product = ($(el).text().substring(0,index).trim())
                 products.push(product)
             }
-            else if ($(el).text().indexOf("n3") !==-1){
-                index = $(el).text().indexOf("n3")
-                let product = ($(el).text().substring(0,index+1).trim())
+            else if ($(el).text().indexOf("3") !==-1){
+                index = $(el).text().indexOf("3")
+                let product = ($(el).text().substring(0,index).trim())
                 products.push(product)
             }
-            else if ($(el).text().indexOf("n4") !==-1){
-                index = $(el).text().indexOf("n4")
-                let product = ($(el).text().substring(0,index+1).trim())
+            else if ($(el).text().indexOf("4") !==-1){
+                index = $(el).text().indexOf("4")
+                let product = ($(el).text().substring(0,index).trim())
                 products.push(product)
             }
             
-            else if ($(el).text().indexOf("l8") !==-1){
-                index = $(el).text().indexOf("l8")
-                let product = ($(el).text().substring(0,index+1).trim())
+            else if ($(el).text().indexOf("8") !==-1){
+                index = $(el).text().indexOf("8")
+                let product = ($(el).text().substring(0,index).trim())
                 products.push(product)
             }
-            else if ($(el).text().indexOf("S2") !==-1){
-                index = $(el).text().indexOf("S2")
-                let product = ($(el).text().substring(0,index+1).trim())
+            else if ($(el).text().indexOf("2") !==-1){
+                index = $(el).text().indexOf("2")
+                let product = ($(el).text().substring(0,index).trim())
                 products.push(product)
             }
-            else if ($(el).text().indexOf("l2") !==-1){
-                index = $(el).text().indexOf("l2")
-                let product = ($(el).text().substring(0,index+1).trim())
+            else if ($(el).text().indexOf("2") !==-1){
+                index = $(el).text().indexOf("2")
+                let product = ($(el).text().substring(0,index).trim())
                 products.push(product)
             }
-            else if ($(el).text().indexOf("n8") !==-1){
-                index = $(el).text().indexOf("n8")
-                let product = ($(el).text().substring(0,index+1).trim())
+            else if ($(el).text().indexOf("8") !==-1){
+                index = $(el).text().indexOf("8")
+                let product = ($(el).text().substring(0,index).trim())
                 products.push(product)
             }
-            else if ($(el).text().indexOf("l9") !==-1){
-                index = $(el).text().indexOf("l9")
-                let product = ($(el).text().substring(0,index+1).trim())
+            else if ($(el).text().indexOf("9") !==-1){
+                index = $(el).text().indexOf("9")
+                let product = ($(el).text().substring(0,index).trim())
                 products.push(product)
             }
-            else if ($(el).text().indexOf("a5") !==-1){
-                index = $(el).text().indexOf("a5")
+            else if ($(el).text().indexOf("5") !==-1){
+                index = $(el).text().indexOf("5")
                 
-                let product = ($(el).text().substring(0,index+1).trim())
+                let product = ($(el).text().substring(0,index).trim())
             }
-            else if ($(el).text().indexOf("l7") !==-1){
-                index = $(el).text().indexOf("l7")
-                let product = ($(el).text().substring(0,index+1).trim())
+            else if ($(el).text().indexOf("7") !==-1){
+                index = $(el).text().indexOf("7")
+                let product = ($(el).text().substring(0,index).trim())
                 products.push(product)
             }
-            else if ($(el).text().indexOf("e9") !==-1){
-                index = $(el).text().indexOf("e9")
-                let product = ($(el).text().substring(0,index+1).trim())
+            else if ($(el).text().indexOf("9") !==-1){
+                index = $(el).text().indexOf("9")
+                let product = ($(el).text().substring(0,index).trim())
                 products.push(product)
             }
             else if ($(el).text().indexOf("i9") !==-1){
@@ -137,7 +145,6 @@ try {
             }
             
         })
-        // console.log(products)
         return products;
    
         } catch(err) {
@@ -147,7 +154,7 @@ try {
     }
 
 async function scrapeAllProducts(){
-    await mongoose.connect('mongodb://127.0.0.1:27017/shoppingList')
+    await connectDB()
     const allProducts = []
     const allAddresses = await getAllURL()
     for (addr of allAddresses){
@@ -157,7 +164,7 @@ async function scrapeAllProducts(){
     return allProducts
 }
 
-// scrapeAll().then(result => {
+// scrapeAllProducts().then(result => {
 //     console.log("DONE:", result.length, "products")
 // }).catch(console.error)
 

@@ -1,23 +1,17 @@
 const mongoose = require('mongoose')
-const getProducts = require('./productScraping')
-const getPrices = require('./priceScraping')
+const getProducts = require('./webscraping/productScraping')
+const getPrices = require('./webscraping/priceScraping')
+const Item = require('./models/Item')
 
-
-async function connect(){
-    await mongoose.connect('mongodb://127.0.0.1:27017/shoppingList')
+async function connectDB() {
+    if (mongoose.connection.readyState === 0) {
+        await mongoose.connect('mongodb://127.0.0.1:27017/shoppingList');
+    }
 }
-connect()
-    .then(
-        console.log("Connected to database")
-    ).catch(err => console.log(err));
 
-const itemSchema = new mongoose.Schema({
-    name: String,
-    price: String
-})
-const Item = mongoose.model('Item', itemSchema)
 
 async function addItems(){
+    await connectDB()
     const products = await getProducts()
     const prices = await getPrices()
     if (products.length === prices.length){
@@ -27,9 +21,10 @@ async function addItems(){
         }
     }
     console.log("finished")
+    
 }
 
-Item.deleteMany({})
+
 addItems()
 
 
