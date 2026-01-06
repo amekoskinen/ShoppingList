@@ -29,6 +29,7 @@ async function addItems(){
     console.log("finished")
 }
 
+Item.deleteMany({})
 addItems()
 
 
