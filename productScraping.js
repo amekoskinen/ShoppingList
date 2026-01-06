@@ -1,9 +1,8 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
+
 const mongoose = require('mongoose')
 const urlAddress = require('./urlAddresses')
-// const url = 'https://www.s-kaupat.fi/tuotteet/hedelmat-ja-vihannekset-1/vihannekset';
-
 async function connect(){
     await mongoose.connect('mongodb://127.0.0.1:27017/shoppingList')
 }
@@ -11,8 +10,6 @@ connect()
     .then(
         console.log("Connected to database")
     ).catch(err => console.log(err));
-
-
 
 async function getAllURL() {
     const allAddresses = []
@@ -22,9 +19,6 @@ async function getAllURL() {
     }
     return allAddresses;
 }
-
-
-
 
 async function getProducts(url){
 const products = []
@@ -107,19 +101,19 @@ try {
                 index = $(el).text().indexOf("i9")
                 products.push(($(el).text().substring(0,index)))
             }
-             else if ($(el).text().indexOf("i4") !==-1){
+            else if ($(el).text().indexOf("i4") !==-1){
                 index = $(el).text().indexOf("i4")
                 products.push(($(el).text().substring(0,index)))
             }
-             else if ($(el).text().indexOf("a0") !==-1){
+            else if ($(el).text().indexOf("a0") !==-1){
                 index = $(el).text().indexOf("a0")
                 products.push(($(el).text().substring(0,index)))
             }
-             else if ($(el).text().indexOf("g3") !==-1){
+            else if ($(el).text().indexOf("g3") !==-1){
                 index = $(el).text().indexOf("g3")
                 products.push(($(el).text().substring(0,index)))
             }
-             else if ($(el).text().indexOf("g4") !==-1){
+            else if ($(el).text().indexOf("g4") !==-1){
                 index = $(el).text().indexOf("g4")
                 products.push(($(el).text().substring(0,index)))
             }
@@ -127,7 +121,6 @@ try {
             else{
                 console.log("PROBLEM SCRAPING!")
                 console.log($(el).text())
-                return
             }
             
         })
