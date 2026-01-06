@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const getProducts = require('./productScraping')
 const getPrices = require('./priceScraping')
-const urlAddress = require('./urlAddresses')
+
 
 async function connect(){
     await mongoose.connect('mongodb://127.0.0.1:27017/shoppingList')
@@ -27,14 +27,7 @@ async function addItems(){
         }
     }
 }
-async function getAllURL() {
-    const allAddresses = []
-    const result = await urlAddress.find()
-    for (let i=0; i<result.length; i++){
-        allAddresses.push(result[i].name)
-    }
-    return allAddresses;
-}
+
 
 
 
