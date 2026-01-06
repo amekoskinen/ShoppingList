@@ -3,13 +3,6 @@ const cheerio = require('cheerio')
 
 const mongoose = require('mongoose')
 const urlAddress = require('./urlAddresses')
-async function connect(){
-    await mongoose.connect('mongodb://127.0.0.1:27017/shoppingList')
-}
-connect()
-    .then(
-        console.log("Connected to database")
-    ).catch(err => console.log(err));
 
 async function getAllURL() {
     const allAddresses = []
@@ -134,6 +127,7 @@ try {
     }
 
 async function scrapeAll(){
+    await mongoose.connect('mongodb://127.0.0.1:27017/shoppingList')
     const allProducts = []
     const allAddresses = await getAllURL()
     for (addr of allAddresses){

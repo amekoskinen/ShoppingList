@@ -1,6 +1,17 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
-const url = 'https://www.s-kaupat.fi/tuotteet/hedelmat-ja-vihannekset-1/vihannekset';
+
+const mongoose = require('mongoose')
+const urlAddress = require('./urlAddresses')
+
+async function getAllURL() {
+    const allAddresses = []
+    const result = await urlAddress.find()
+    for (let i=0; i<result.length; i++){
+        allAddresses.push(result[i].name)
+    }
+    return allAddresses;
+}
 
 function isNumber(value) {
     let numbers = ["0","1","2","3","4","5","6","7","8","9"]
@@ -8,7 +19,7 @@ function isNumber(value) {
         return true;
     }
 }
-async function getPrices() {
+async function getPrices(url) {
     const prices = []
     try{
         const response = await axios(url)
@@ -31,11 +42,26 @@ async function getPrices() {
         })
         return prices;
         
-        } catch{
+        } catch(err){
             console.error(err);
             return [];
         }
 }
+
+async function scrapeAll(){
+    await mongoose.connect('mongodb://127.0.0.1:27017/shoppingList')
+    const allPrices = []
+    const allAddresses = await getAllURL()
+    for (addr of allAddresses){
+        const prices = await getPrices(addr)
+        allPrices.push(...prices)
+    }
+    return allPrices
+}
+
+scrapeAll().then(result => {
+    console.log("DONE:", result.length, "prices")
+}).catch(console.error)
 
 module.exports = getPrices
 
@@ -44,3 +70,6 @@ module.exports = getPrices
 
 
         // cwmmFn hinnat
+
+
+        // 594
