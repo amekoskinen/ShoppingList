@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const ShoppingList = require('./models/ShoppingList')
-const Item = require('./models/Item')
+const ShoppingList = require('../models/ShoppingList')
+const Item = require('../models/Item')
 
 async function connectDB() {
     if (mongoose.connection.readyState === 0) {
@@ -29,5 +29,4 @@ async function findAllItems() {
     return allItems;
 }
 
-
-findAllItems().then(() => mongoose.connection.close())
+module.exports = findAllItems

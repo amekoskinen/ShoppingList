@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
-const getProducts = require('./webscraping/productScraping')
-const getPrices = require('./webscraping/priceScraping')
-const Item = require('./models/Item')
+const getProducts = require('../webscraping/productScraping')
+const getPrices = require('../webscraping/priceScraping')
+const Item = require('../models/Item')
 
 async function connectDB() {
     if (mongoose.connection.readyState === 0) {
@@ -17,14 +17,13 @@ async function addItems(){
     const prices = await getPrices()
     if (products.length === prices.length){
         for (let i=0; i<products.length; i++){
-            let newItem = new Item({name: products[i], price: prices[i]})
+            let newItem = new Item({name: products[i], price: prices[i], tempPrice: prices[i]})
             await newItem.save()
         }
     }
     console.log("finished")
     
 }
-
 
 addItems()
 
