@@ -15,9 +15,10 @@ const urlAddress = mongoose.model('urlAddress', urlSchema)
 
 async function seedURLaddresses(){
     await connectDB()
+    await urlAddress.deleteMany({})
     await urlAddress.insertMany([
     {name: "https://www.s-kaupat.fi/tuotteet/kodinhoito-ja-taloustarvikkeet/wc-paperit-talouspaperit-ja-nenaliinat/wc-paperit"},
-    {name: "https://www.s-kaupat.fi/tuotteet/kodinhoito-ja-taloustarvikkeet/pyykinpesu/pyykinpesuaineet?page=2"},
+    {name: "https://www.s-kaupat.fi/tuotteet/kodinhoito-ja-taloustarvikkeet/pyykinpesu/pyykinpesuaineet?page=3"},
     {name: "https://www.s-kaupat.fi/tuotteet/kodinhoito-ja-taloustarvikkeet/astianpesu/konetiskiaineet"},
     {name: "https://www.s-kaupat.fi/tuotteet/lemmikit-1/kissanruoka/kissan-markaruoka"},
     {name: "https://www.s-kaupat.fi/tuotteet/lemmikit-1/kissanhiekka-ja-kissan-tarvikkeet/kissanhiekka"},
@@ -35,6 +36,7 @@ async function seedURLaddresses(){
     {name: "https://www.s-kaupat.fi/tuotteet/liha-ja-kasviproteiinit-1/kinkut-ja-leikkeleet/kokolihaleikkeet?page=4"},
     {name: "https://www.s-kaupat.fi/tuotteet/liha-ja-kasviproteiinit-1/jauheliha/muut-jauhelihat"},
     {name: "https://www.s-kaupat.fi/tuotteet/maito-munat-ja-rasvat-0/rasvat/margariinit"},
+    {name: "https://www.s-kaupat.fi/tuotteet/maito-munat-ja-rasvat-0/rasvat/margariinit?page=2"},
     {name: "https://www.s-kaupat.fi/tuotteet/maito-munat-ja-rasvat-0/kermat/ruokakermat"},
     {name: "https://www.s-kaupat.fi/tuotteet/pastat-riisit-ja-nuudelit/pastat/fusillit-pennet-ja-muut-kuviopastat"},
     {name: "https://www.s-kaupat.fi/tuotteet/maito-munat-ja-rasvat-0/munat"},
@@ -49,7 +51,7 @@ async function seedURLaddresses(){
 })
 }
 
-// seedURLaddresses()
+seedURLaddresses()
 
 
 module.exports = mongoose.models.urlAddress || mongoose.model('urlAddress', urlSchema)

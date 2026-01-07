@@ -12,6 +12,7 @@ async function connectDB() {
 
 async function addItems(){
     await connectDB()
+    await Item.deleteMany({})
     const products = await getProducts()
     const prices = await getPrices()
     if (products.length === prices.length){

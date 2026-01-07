@@ -14,7 +14,7 @@ const shoppingItems= [
 {name: "Kotimaista jääsalaatti 100g Suomi",price: "0"},
 {name: "H&H Tuominen sipuli",price: "0"},
 {name: "Pesty yleisperuna",price: "0"},
-{name: "Kotimaista 300g juureskuutiot",price: "0"},
+{name: "Coop 300g juureskuutiot",price: "0"},
 {name: "Oululainen Pullava Dallaspitko 400g",price: "0"},
 {name: "Fazer Jaffa Jim leivoskeksi 300g",price: "0"},
 {name: "Vaasan Kauratyynyt 360 g 6 kpl halkaistu kaurasekaleipä",price: "0"},

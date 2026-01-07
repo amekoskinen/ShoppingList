@@ -33,22 +33,45 @@ try {
     const response = await axios(url)
     const html = response.data;
     // console.log(html)
+    
     const $ = cheerio.load(html)
         $('.joHiJE').each((_i, el) => {
-            // console.log($(el).text(),"\n")
+            let text = $(el).text()
+            if (url=="https://www.s-kaupat.fi/tuotteet/maito-munat-ja-rasvat-0/munat"){
+                text = text.replace("M10", "M10 ")
+                text = text.replace("L15", "L15 ")
+                text = text.replace("L10", "L10 ")
+                text = text.replace("M15", "M15 ")
+                text = text.replace("M15", "M15 ")
+                text = text.replace("L6", "L6 ")
+                text = text.replace("M6", "M6 ")
+                text = text.replace("L4", "L4 ")
+                text = text.replace("L8", "L8 ")
+                text = text.replace("M 10", "M 10 ")
+                text = text.replace("L 10", "L 10 ")
+                text = text.replace("L 15", "L 15 ")
+                text = text.replace("M 6", "M 6 ")
+                text = text.replace("  "," ")
+            }
+            
             let index1 = 0
-            let index2 = $(el).text().indexOf(" €")
+            let index2 = text.indexOf(" €")
             for (let i=index2-1; i>=0; i--){
-                if(!isNumber($(el).text()[i])&& ($(el).text()[i]) !==","){
+                if(!isNumber(text[i])&& (text[i]) !==","){
                     index1 = i+1
-                    let product = $(el).text().substring(0,index1)
+                    let product = text.substring(0,index1).trim()
                     products.push(product)
                     break
                 }
             }
         })
-        console.log(products)
-        return products;
+        let cleanProducts = []
+        for (let prod of products){
+            let cleanProduct = prod.replace("n.Noin","")
+            // console.log(cleanProduct)
+            cleanProducts.push(cleanProduct)
+        }
+        return cleanProducts;
    
         } catch(err) {
             console.error(err);
