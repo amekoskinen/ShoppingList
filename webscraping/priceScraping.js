@@ -49,7 +49,6 @@ async function getPrices(url) {
                 text = text.replace("L 15", "L 15 ")
                 text = text.replace("M 6", "M 6 ")
                 text = text.replace("  "," ")
-                console.log(text)
             }
             let index1 = 0
             let index2 = text.indexOf(" €")

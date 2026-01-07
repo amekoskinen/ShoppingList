@@ -60,6 +60,7 @@ try {
                 if(!isNumber(text[i])&& (text[i]) !==","){
                     index1 = i+1
                     let product = text.substring(0,index1).trim()
+                    product = product.replace("  "," ")
                     products.push(product)
                     break
                 }

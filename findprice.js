@@ -22,14 +22,12 @@ async function findAllItems() {
         }
         catch(err){
             console.log(item.name)
-            console.error("CHECK!")
+            console.error("CHECK THIS ITEM!")
         }
     }
     
     return allItems;
 }
-
-// findShoppingItems()
 
 
 findAllItems().then(() => mongoose.connection.close())

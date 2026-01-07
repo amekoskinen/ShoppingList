@@ -44,6 +44,7 @@ async function seedURLaddresses(){
     {name: "https://www.s-kaupat.fi/tuotteet/alkoholi-ja-virvoitusjuomat/oluet/vaalea-lager-olut"},
     {name: "https://www.s-kaupat.fi/tuotteet/kahvit-teet-ja-mehut/kahvit-ja-suodatinpaperit/vaaleapaahtoiset-suodatinjauhatuskahvit"},
     {name: "https://www.s-kaupat.fi/tuotteet/hillot-ja-sailykkeet/hillot/vadelmahillot"},
+    {name: "https://www.s-kaupat.fi/tuotteet/kosmetiikka-ja-hygienia/suunhoito/hammastahnat"},
     {name: "https://www.s-kaupat.fi/tuotteet/kosmetiikka-ja-hygienia/suunhoito/hammastahnat?page=2"},
     {name: "https://www.s-kaupat.fi/tuotteet/pakasteet-1/jaatelot/jaatelopakkaukset?page=2"},
 ]).then( function () {
