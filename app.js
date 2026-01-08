@@ -1,16 +1,12 @@
 const express = require('express');
 const port = 3000;
-
 const path = require('path');
-
 const mongoose = require('mongoose');
-
 const methodOverride = require('method-override');
-
 const ejsMate = require('ejs-mate');
-
 const ExpressError = require('./utils/ExpressError');
 const catchAsync = require('./utils/catchAsync')
+const basicroute = require('./routes/basicroute')
 
 mongoose.connect('mongodb://127.0.0.1:27017/shoppingList');
 
@@ -27,16 +23,13 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.set('strict routing', false);
+
 
 app.use(express.static('assets'))
 
+app.use('/shoppinglist', basicroute);
 
-app.get('/', (req, res) => {
-  res.redirect('/shoppinglist')
-});
-app.get('/shoppinglist', (req,res) => {
-    res.render('index')
-})
 
 app.all('/{*any}', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404));
