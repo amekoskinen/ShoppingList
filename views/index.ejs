@@ -1,11 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shopping List</title>
-  </head>
-  <body>
-    <h1>TEST</h1>
-  </body>
-</html>
+<% layout('layouts/boilerplate') -%>
+
+<div class="row">
+  <div class="col-12 text-center basicstyle">
+    <div class="homepage d-flex m-auto justify-content-center">
+      <div class="py-5 text-center homepage-box">
+        <img
+          src="/images/shopping-cart.png"
+          width="70"
+          height="70"
+          alt="shopping-cart logo"
+        />
+        <h1 class="display-5 fw-bold text-white">Shopping List</h1>
+        <div class="col-lg-6 mx-auto">
+          <p class="lead mb-4">
+            Check the prices of your shopping list quickly!
+          </p>
+          <div class="d-flex gap-2 justify-content-center">
+            <form action="/" method="GET">
+              <button type="button" class="btn btn-primary btn-lg px-5 gap-5">
+                Show List
+              </button>
+            </form>
+            <form action="/" method="GET">
+              <button type="Button" class="btn btn-info btn-lg px-5">
+                Add items
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

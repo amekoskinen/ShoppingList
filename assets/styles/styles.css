@@ -1,0 +1,37 @@
+body{
+    margin:0;
+    padding:0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #4988C4;
+}
+
+.homepage{
+    background-color: #BDE8F5;
+    height: 100vh;
+    box-shadow: 5px 10px 8px #888888;
+}
+
+.homepage-box{
+    width: 40%;
+    margin: auto;
+    border: 1px #0F2854 solid;
+    border-radius: 5px;
+    box-shadow: 5px 10px 8px #888888;
+    background-color: #1C4D8D;
+    color: white;
+}
+
+
+
+
+.colors {
+    background-color: #0F2854;
+    background-color: #1C4D8D;
+    background-color: #4988C4;
+    background-color: #BDE8F5;
+}
+
+
+
+

@@ -8,7 +8,6 @@ async function connectDB() {
     }
 }
 
-
 async function findAllItems() {
     await connectDB();
     const allItems = await Item.find()

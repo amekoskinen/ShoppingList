@@ -28,10 +28,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+app.use(express.static('assets'))
+
 
 app.get('/', (req, res) => {
-  res.render('index')
+  res.redirect('/shoppinglist')
 });
+app.get('/shoppinglist', (req,res) => {
+    res.render('index')
+})
 
 app.all('/{*any}', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404));
