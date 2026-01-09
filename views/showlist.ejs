@@ -29,11 +29,10 @@
                       class="d-flex justify-content-between align-items-center mb-5"
                     >
                       <h1 class="fw-bold mb-0">Shopping List</h1>
-                      <h6 class="mb-0 text-muted">items</h6>
-                      <!-- add the amount -->
+                      <h6 class="mb-0 text-muted"><%=allItems%> items</h6>
                     </div>
                     <hr class="my-4" />
-
+                    <form action="/shoppinglist/showlist/update" method="POST">
                     <% for (let product of products) { %>
                     <div
                       class="row mb-2 d-flex justify-content-between align-items-center"
@@ -55,8 +54,8 @@
                         <input
                           id="<%= product._id %>"
                           min="0"
-                          name="qty<%= product._id %>"
-                          value="1"
+                          name="<%= product._id %>"
+                          value="<%=product.quantity%>"
                           type="number"
                           class="form-control form-control-sm"
                         />
@@ -85,11 +84,13 @@
                     <% } %>
                     <div class="pt-5">
                       <h6 class="mb-0">
-                        <a href="/shoppinglist" class="text-body"
-                          ><i class="fas fa-long-arrow-alt-left me-2"></i>Back
-                          to Home Page</a
-                        >
+                        <a href="/shoppinglist" class="btn btn-primary">
+                          Back to Home Page
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                          Update Total Price</button>
                       </h6>
+                      </form>
                     </div>
                   </div>
                 </div>

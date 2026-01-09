@@ -18,8 +18,25 @@ router.get('/', (req, res) => {
 
 router.get('/showlist', catchAsync(async(req,res) => {
     const products = await Shoppinglist.find({})
-    res.render('showlist', {products})
+    let allItems = 0
+    for (let product of products){
+      allItems = allItems+product.quantity
+      console.log(product.price)
+    }
+    res.render('showlist', {products, allItems})
 }));
+
+router.post('/showlist/update', catchAsync(async(req,res) => {
+  const data = await req.body;
+  const ids = Object.keys(data)
+  for (let id of ids) {
+    await Shoppinglist.findOneAndUpdate({ _id: id },
+  { $set: { quantity: data[id] } },
+  { new: true }
+  )
+}
+  res.redirect('/shoppinglist/showlist')
+}))
 
 
 module.exports = router;
