@@ -30,6 +30,9 @@ app.use(express.static('assets'))
 
 app.use('/shoppinglist', basicroute);
 
+app.get('/', (req, res) => {
+  res.redirect('/shoppinglist')
+});
 
 app.all('/{*any}', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404));

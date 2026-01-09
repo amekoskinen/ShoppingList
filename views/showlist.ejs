@@ -1,11 +1,8 @@
 <% layout('layouts/boilerplate') -%>
 
-<section class="pb-4">
-  <div class="border rounded-5">
-    <section
-      class="px-4 py-5 w-100"
-      style="background-color: #d2c9ff; border-radius: 0.5rem 0.5rem 0 0"
-    >
+<section class="pb-4 flex-grow-1">
+  <div class="border rounded-3 homepage">
+    <section class="px-4 py-3 w-100">
       <style>
         .card-registration
           .select-input.form-control[readonly]:not([disabled]) {
@@ -14,7 +11,6 @@
           padding-left: 0.75em;
           padding-right: 0.75em;
         }
-
         .card-registration .select-arrow {
           top: 13px;
         }
@@ -23,7 +19,7 @@
         <div class="col-12">
           <div
             class="card card-registration card-registration-2"
-            style="border-radius: 15px"
+            style="border-radius: 20px"
           >
             <div class="card-body p-0">
               <div class="row g-0">
@@ -32,24 +28,18 @@
                     <div
                       class="d-flex justify-content-between align-items-center mb-5"
                     >
-                      <h1 class="fw-bold mb-0">Shopping Cart</h1>
-                      <h6 class="mb-0 text-muted">3 items</h6>
+                      <h1 class="fw-bold mb-0">Shopping List</h1>
+                      <h6 class="mb-0 text-muted">items</h6>
+                      <!-- add the amount -->
                     </div>
                     <hr class="my-4" />
 
+                    <% for (let product of products) { %>
                     <div
-                      class="row mb-4 d-flex justify-content-between align-items-center"
+                      class="row mb-2 d-flex justify-content-between align-items-center"
                     >
-                      <div class="col-md-2 col-lg-2 col-xl-2">
-                        <img
-                          src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img5.webp"
-                          class="img-fluid rounded-3"
-                          alt="Cotton T-shirt"
-                        />
-                      </div>
-                      <div class="col-md-3 col-lg-3 col-xl-3">
-                        <h6 class="text-muted">Shirt</h6>
-                        <h6 class="mb-0">Cotton T-shirt</h6>
+                      <div class="col-md-5 col-lg-5 col-xl-5">
+                        <p class="mb-0"><%=product.name%></p>
                       </div>
                       <div class="col-md-3 col-lg-3 col-xl-3 d-flex">
                         <button
@@ -61,11 +51,11 @@
                         >
                           <i class="fas fa-minus"></i>
                         </button>
-
+                        <!-- change id name -->
                         <input
-                          id="form1"
+                          id="<%= product._id %>"
                           min="0"
-                          name="quantity"
+                          name="qty<%= product._id %>"
                           value="1"
                           type="number"
                           class="form-control form-control-sm"
@@ -82,7 +72,7 @@
                         </button>
                       </div>
                       <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                        <h6 class="mb-0">€ 44.00</h6>
+                        <p class="mb-0"><%= product.price %> €</p>
                       </div>
                       <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                         <a href="#!" class="text-muted"
@@ -92,124 +82,12 @@
                     </div>
 
                     <hr class="my-4" />
-
-                    <div
-                      class="row mb-4 d-flex justify-content-between align-items-center"
-                    >
-                      <div class="col-md-2 col-lg-2 col-xl-2">
-                        <img
-                          src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img6.webp"
-                          class="img-fluid rounded-3"
-                          alt="Cotton T-shirt"
-                        />
-                      </div>
-                      <div class="col-md-3 col-lg-3 col-xl-3">
-                        <h6 class="text-muted">Shirt</h6>
-                        <h6 class="mb-0">Cotton T-shirt</h6>
-                      </div>
-                      <div class="col-md-3 col-lg-3 col-xl-3 d-flex">
-                        <button
-                          data-mdb-button-init=""
-                          data-mdb-ripple-init=""
-                          class="btn btn-link px-2"
-                          onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                          data-mdb-button-initialized="true"
-                        >
-                          <i class="fas fa-minus"></i>
-                        </button>
-
-                        <input
-                          id="form1"
-                          min="0"
-                          name="quantity"
-                          value="1"
-                          type="number"
-                          class="form-control form-control-sm"
-                        />
-
-                        <button
-                          data-mdb-button-init=""
-                          data-mdb-ripple-init=""
-                          class="btn btn-link px-2"
-                          onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                          data-mdb-button-initialized="true"
-                        >
-                          <i class="fas fa-plus"></i>
-                        </button>
-                      </div>
-                      <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                        <h6 class="mb-0">€ 44.00</h6>
-                      </div>
-                      <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                        <a href="#!" class="text-muted"
-                          ><i class="fas fa-times"></i
-                        ></a>
-                      </div>
-                    </div>
-
-                    <hr class="my-4" />
-
-                    <div
-                      class="row mb-4 d-flex justify-content-between align-items-center"
-                    >
-                      <div class="col-md-2 col-lg-2 col-xl-2">
-                        <img
-                          src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img7.webp"
-                          class="img-fluid rounded-3"
-                          alt="Cotton T-shirt"
-                        />
-                      </div>
-                      <div class="col-md-3 col-lg-3 col-xl-3">
-                        <h6 class="text-muted">Shirt</h6>
-                        <h6 class="mb-0">Cotton T-shirt</h6>
-                      </div>
-                      <div class="col-md-3 col-lg-3 col-xl-3 d-flex">
-                        <button
-                          data-mdb-button-init=""
-                          data-mdb-ripple-init=""
-                          class="btn btn-link px-2"
-                          onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                          data-mdb-button-initialized="true"
-                        >
-                          <i class="fas fa-minus"></i>
-                        </button>
-
-                        <input
-                          id="form1"
-                          min="0"
-                          name="quantity"
-                          value="1"
-                          type="number"
-                          class="form-control form-control-sm"
-                        />
-
-                        <button
-                          data-mdb-button-init=""
-                          data-mdb-ripple-init=""
-                          class="btn btn-link px-2"
-                          onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                          data-mdb-button-initialized="true"
-                        >
-                          <i class="fas fa-plus"></i>
-                        </button>
-                      </div>
-                      <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                        <h6 class="mb-0">€ 44.00</h6>
-                      </div>
-                      <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                        <a href="#!" class="text-muted"
-                          ><i class="fas fa-times"></i
-                        ></a>
-                      </div>
-                    </div>
-
-                    <hr class="my-4" />
-
+                    <% } %>
                     <div class="pt-5">
                       <h6 class="mb-0">
-                        <a href="#!" class="text-body"
+                        <a href="/shoppinglist" class="text-body"
                           ><i class="fas fa-long-arrow-alt-left me-2"></i>Back
-                          to shop</a
+                          to Home Page</a
                         >
                       </h6>
                     </div>
@@ -221,8 +99,9 @@
                     <hr class="my-4" />
 
                     <div class="d-flex justify-content-between mb-4">
-                      <h5 class="text-uppercase">items 3</h5>
+                      <h5 class="text-uppercase">ALL ITEMS</h5>
                       <h5>€ 132.00</h5>
+                      <!-- change total price -->
                     </div>
 
                     <h5 class="text-uppercase mb-3">Shipping</h5>
@@ -331,27 +210,5 @@
         </div>
       </div>
     </section>
-
-    <div class="p-4 text-center border-top mobile-hidden">
-      <a
-        class="btn btn-link px-3 collapsed"
-        data-mdb-collapse-init=""
-        href="#example2"
-        role="button"
-        aria-expanded="false"
-        aria-controls="example2"
-        data-ripple-color="hsl(0, 0%, 67%)"
-      >
-        <i class="fas fa-code me-md-2"></i>
-        <span class="d-none d-md-inline-block"> Show code </span>
-      </a>
-
-      <a class="btn btn-link px-3" data-ripple-color="hsl(0, 0%, 67%)">
-        <i class="fas fa-file-code me-md-2 pe-none"></i>
-        <span class="d-none d-md-inline-block export-to-snippet pe-none">
-          Edit in sandbox
-        </span>
-      </a>
-    </div>
   </div>
 </section>
