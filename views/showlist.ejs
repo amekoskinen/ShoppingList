@@ -88,8 +88,10 @@
                         </a>
                         <button type="submit" class="btn btn-warning">
                           Update Total Price</button>
+                        </form>
+                          </h6>
                       </h6>
-                      </form>
+                      
                     </div>
                   </div>
                 </div>
@@ -103,103 +105,67 @@
                       <h5><%= totalPrice %> €</h5>
                     </div>
 
-                    <h5 class="text-uppercase mb-3">Shipping</h5>
-
-                    <div class="mb-4 pb-2">
-                      <div id="select-wrapper-971444" class="select-wrapper">
-                        <div
-                          class="form-outline"
-                          data-mdb-input-init=""
-                          data-mdb-input-initialized="true"
-                        >
-                          <input
-                            class="form-control select-input placeholder-active active"
-                            type="text"
-                            role="combobox"
-                            aria-disabled="false"
-                            aria-haspopup="listbox"
-                            aria-expanded="false"
-                            aria-controls="select-dropdown-container-261736"
-                            id="select-input-584756"
-                            readonly="true"
-                          /><span class="select-arrow"></span>
-                          <div class="form-notch">
-                            <div
-                              class="form-notch-leading"
-                              style="width: 9px"
-                            ></div>
-                            <div
-                              class="form-notch-middle"
-                              style="width: 0px"
-                            ></div>
-                            <div class="form-notch-trailing"></div>
-                          </div>
-                          <div class="form-label select-fake-value">
-                            Standard-Delivery- €5.00
-                          </div>
-                        </div>
-                        <select
-                          data-mdb-select-init=""
-                          class="select-initialized"
-                          data-mdb-select-initialized="true"
-                        >
-                          <option value="1">Standard-Delivery- €5.00</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
-                          <option value="4">Four</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <h5 class="text-uppercase mb-3">Give code</h5>
-
+                    <h5 class="text-uppercase mb-3">Additional expenses</h5>
+                    <form class="text-end" action="/shoppinglist/additional" method="POST">
                     <div class="mb-5">
                       <div
                         data-mdb-input-init=""
-                        class="form-outline"
+                        class="form-group"
                         data-mdb-input-initialized="true"
                       >
                         <input
                           type="text"
-                          id="form3Examplea2"
+                          id="additionalItemName"
                           class="form-control form-control-lg"
                         />
                         <label
-                          class="form-label"
-                          for="form3Examplea2"
+                          class="form-label text-muted text-center"
+                          for="additionalItemName"
                           style="margin-left: 0px"
-                          >Enter your code</label
+                          >Item</label
                         >
-                        <div class="form-notch">
-                          <div
-                            class="form-notch-leading"
-                            style="width: 9px"
-                          ></div>
-                          <div
-                            class="form-notch-middle"
-                            style="width: 96.8px"
-                          ></div>
-                          <div class="form-notch-trailing"></div>
+                        <input
+                          type="text"
+                          id="additionalItemPrice"
+                          class="form-control form-control-lg"
+                        />
+                        <label
+                          class="form-label text-muted"
+                          for="additionalItemPrice"
+                          style="margin-left: 0px"
+                          >Price</label
+                        >
                         </div>
-                      </div>
+                        <button type="submit" class="btn btn-primary mx-auto d-block">Add Item</button>
+                    </form>
+                        
+                      
                     </div>
-
-                    <hr class="my-4" />
-
-                    <div class="d-flex justify-content-between mb-5">
-                      <h5 class="text-uppercase">Total price</h5>
-                      <h5>€ 137.00</h5>
+                    <hr>
+                    <ul class="list-group">
+                    <% for (let add of additionalItems) { %>
+                    <div class="text-end">
+                    
+                      <li class="list-group-item"><%= add.name %>: <%= add.price %> €</li>
+                      
                     </div>
-
+                    <% } %>
+                    </ul>
+                    <hr/>
+                    <div class="d-flex flex-column mb-5 text-center">
+                      <h5 class="text-uppercase">Total with additional items:</h5>
+                      <h6><%= overallPrice %> €</h6>
+                    </div>
+                  
                     <button
                       type="button"
                       data-mdb-button-init=""
                       data-mdb-ripple-init=""
-                      class="btn btn-dark btn-block btn-lg"
+                      class="btn btn-dark btn-block btn-lg mx-auto d-block"
                       data-mdb-ripple-color="dark"
                       data-mdb-button-initialized="true"
                     >
-                      Register
+                      Print
                     </button>
                   </div>
                 </div>

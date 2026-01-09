@@ -3,6 +3,7 @@ const router = express.Router();
 const catchAsync = require('../utils/catchAsync')
 const mongoose = require('mongoose')
 const Shoppinglist = require('../models/ShoppingList')
+const Additional = require('../models/Additional')
 
 
 async function connectDB() {
@@ -18,13 +19,19 @@ router.get('/', (req, res) => {
 
 router.get('/showlist', catchAsync(async(req,res) => {
     const products = await Shoppinglist.find({})
+    const additionalItems = await Additional.find({})
     let allItems = 0
     let totalPrice = 0
+    let overallPrice = 0
     for (let product of products){
       allItems = allItems+product.quantity
       totalPrice = totalPrice+(product.price*product.quantity)
     }
-    res.render('showlist', {products, allItems, totalPrice})
+    overallPrice = totalPrice
+    for (let add of additionalItems){
+      overallPrice = overallPrice+add.price
+    }
+    res.render('showlist', {products, allItems, totalPrice, additionalItems, overallPrice})
 }));
 
 router.post('/showlist/update', catchAsync(async(req,res) => {
@@ -37,6 +44,10 @@ router.post('/showlist/update', catchAsync(async(req,res) => {
   )
 }
   res.redirect('/shoppinglist/showlist')
+}))
+
+router.post('/additional', catchAsync(async(req,res) => {
+  console.log("TOIMII")
 }))
 
 
