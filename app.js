@@ -7,6 +7,7 @@ const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError');
 const catchAsync = require('./utils/catchAsync')
 const basicroute = require('./routes/basicroute')
+const ShoppingList = require('./models/ShoppingList')
 
 mongoose.connect('mongodb://127.0.0.1:27017/shoppingList');
 
@@ -15,6 +16,16 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
   console.log('Database connected');
 });
+async function resetShoppingList(){
+  const list = await ShoppingList.find()
+  for (let item of list){
+    item.oldPrice = 0
+  }
+}
+
+resetShoppingList()
+
+
 
 const app = express();
 
@@ -29,6 +40,9 @@ app.set('strict routing', false);
 app.use(express.static('assets'))
 
 app.use('/shoppinglist', basicroute);
+
+
+
 
 app.get('/', (req, res) => {
   res.redirect('/shoppinglist')
