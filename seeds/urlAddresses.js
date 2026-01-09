@@ -18,6 +18,7 @@ async function seedURLaddresses(){
     await urlAddress.deleteMany({})
     await urlAddress.insertMany([
     {name: "https://www.s-kaupat.fi/tuotteet/kodinhoito-ja-taloustarvikkeet/wc-paperit-talouspaperit-ja-nenaliinat/wc-paperit"},
+    {name: "https://www.s-kaupat.fi/tuotteet/kodinhoito-ja-taloustarvikkeet/pyykinpesu/pyykinpesuaineet?page=2"},
     {name: "https://www.s-kaupat.fi/tuotteet/kodinhoito-ja-taloustarvikkeet/pyykinpesu/pyykinpesuaineet?page=3"},
     {name: "https://www.s-kaupat.fi/tuotteet/kodinhoito-ja-taloustarvikkeet/astianpesu/konetiskiaineet"},
     {name: "https://www.s-kaupat.fi/tuotteet/lemmikit-1/kissanruoka/kissan-markaruoka"},

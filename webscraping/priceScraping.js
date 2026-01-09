@@ -56,7 +56,8 @@ async function getPrices(url) {
                 if(!isNumber(text[i])&& (text[i]) !==","){
                     index1 = i+1
                     let price = text.substring(index1,index2)
-                    prices.push(price)
+                    price = price.replace(",",".")
+                    prices.push(parseFloat(price))
                     break
                 }
             }

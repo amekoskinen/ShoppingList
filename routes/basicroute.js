@@ -19,11 +19,12 @@ router.get('/', (req, res) => {
 router.get('/showlist', catchAsync(async(req,res) => {
     const products = await Shoppinglist.find({})
     let allItems = 0
+    let totalPrice = 0
     for (let product of products){
       allItems = allItems+product.quantity
-      console.log(product.price)
+      totalPrice = totalPrice+(product.price*product.quantity)
     }
-    res.render('showlist', {products, allItems})
+    res.render('showlist', {products, allItems, totalPrice})
 }));
 
 router.post('/showlist/update', catchAsync(async(req,res) => {

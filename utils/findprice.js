@@ -28,6 +28,6 @@ async function findAllItems() {
     return allItems;
 }
 
-// findAllItems()
+findAllItems()
 
 module.exports = findAllItems
