@@ -15,8 +15,8 @@ async function findAllItems() {
     for (let item of shoppingItems){
         let product = await Item.findOne({name: item.name})
         try{
-            console.log(product.price)
-            const update = await ShoppingList.findOneAndUpdate({name: item.name}, {price: product.price})
+            let oldPrice = await ShoppingList.findOne({name: item.name})
+            const update = await ShoppingList.findOneAndUpdate({name: item.name}, {price: product.price, oldPrice: oldPrice.price})
             await update.save()
         }
         catch(err){
@@ -28,6 +28,6 @@ async function findAllItems() {
     return allItems;
 }
 
-findAllItems()
+// findAllItems()
 
 module.exports = findAllItems

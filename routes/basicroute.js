@@ -2,8 +2,11 @@ const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync')
 const mongoose = require('mongoose')
+const methodOverride = require('method-override');
+
 const Shoppinglist = require('../models/ShoppingList')
 const Additional = require('../models/Additional')
+const findAllItems = require('../utils/findprice')
 
 
 async function connectDB() {
@@ -12,6 +15,7 @@ async function connectDB() {
     }
 }
 
+router.use(methodOverride('_method'));
 
 router.get('/', (req, res) => {
   res.render('index')
@@ -37,6 +41,7 @@ router.get('/showlist', catchAsync(async(req,res) => {
 router.post('/showlist/update', catchAsync(async(req,res) => {
   const data = await req.body;
   const ids = Object.keys(data)
+  await findAllItems()
   for (let id of ids) {
     await Shoppinglist.findOneAndUpdate({ _id: id },
   { $set: { quantity: data[id] } },
@@ -47,7 +52,15 @@ router.post('/showlist/update', catchAsync(async(req,res) => {
 }))
 
 router.post('/additional', catchAsync(async(req,res) => {
-  console.log("TOIMII")
+  const item = await req.body;
+ await Additional.insertOne({name: item.additionalItemName, price: item.additionalItemPrice })
+  res.redirect('/shoppinglist/showlist')
+}))
+
+router.delete('/additional/delete/:id', catchAsync(async(req,res) => {
+  const id = req.params.id;
+  await Additional.findByIdAndDelete(id);
+  res.redirect('/shoppinglist/showlist')
 }))
 
 

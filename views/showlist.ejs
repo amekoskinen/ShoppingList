@@ -73,9 +73,12 @@
                         <p class="mb-0"><%= product.price %> €</p>
                       </div>
                       <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                        <a href="#!" class="text-muted"
-                          ><i class="fas fa-times"></i
-                        ></a>
+                        <% if (product.price>product.oldPrice && product.oldPrice!=0 ){%>
+                          <img src="/images/red-arrow-up.png" height="25" width="25">
+                        <% } %>
+                        <% if (product.price<product.oldPrice && product.oldPrice!=0){%>
+                          <img src="/images/green-arrow-down.png" height="25" width="25">
+                        <%} %>
                       </div>
                     </div>
 
@@ -87,7 +90,7 @@
                           Back to Home Page
                         </a>
                         <button type="submit" class="btn btn-warning">
-                          Update Total Price</button>
+                          Check Prices</button>
                         </form>
                           </h6>
                       </h6>
@@ -106,7 +109,7 @@
                     </div>
 
                     <h5 class="text-uppercase mb-3">Additional expenses</h5>
-                    <form class="text-end" action="/shoppinglist/additional" method="POST">
+                    <form class="text-end form-group" action="/shoppinglist/additional" method="POST">
                     <div class="mb-5">
                       <div
                         data-mdb-input-init=""
@@ -117,6 +120,7 @@
                           type="text"
                           id="additionalItemName"
                           class="form-control form-control-lg"
+                          name="additionalItemName"
                         />
                         <label
                           class="form-label text-muted text-center"
@@ -127,6 +131,7 @@
                         <input
                           type="text"
                           id="additionalItemPrice"
+                          name="additionalItemPrice"
                           class="form-control form-control-lg"
                         />
                         <label
@@ -145,9 +150,14 @@
                     <ul class="list-group">
                     <% for (let add of additionalItems) { %>
                     <div class="text-end">
-                    
-                      <li class="list-group-item"><%= add.name %>: <%= add.price %> €</li>
                       
+                      <li class="list-group-item"><%= add.name %>: <%= add.price %> €
+                        <form class="form-group" action="/shoppinglist/additional/delete/<%= add._id %>?_method=DELETE" method="POST">
+                          <button type="submit" class="btn btn-warning btn-sm">Delete</button>
+                        </form>
+                        
+                      </li>
+                      </form>
                     </div>
                     <% } %>
                     </ul>

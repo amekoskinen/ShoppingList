@@ -3,6 +3,8 @@ const cheerio = require('cheerio')
 
 const mongoose = require('mongoose')
 const urlAddress = require('../seeds/urlAddresses');
+const {attribute} = require('../utils/checkAttribute')
+let url = "https://www.s-kaupat.fi/tuotteet/maito-munat-ja-rasvat-0/munat"
 
 async function connectDB() {
     if (mongoose.connection.readyState === 0) {
@@ -29,13 +31,14 @@ function isNumber(value) {
 async function getProducts(url){
 await connectDB()
 const products = []
+
 try {
     const response = await axios(url)
     const html = response.data;
     // console.log(html)
-    
+    const attr = await attribute(url)
     const $ = cheerio.load(html)
-        $('.joHiJE').each((_i, el) => {
+        $(`.${attr}`).each((_i, el) => {
             let text = $(el).text()
             if (url=="https://www.s-kaupat.fi/tuotteet/maito-munat-ja-rasvat-0/munat"){
                 text = text.replace("M10", "M10 ")
@@ -91,10 +94,6 @@ async function scrapeAllProducts(){
     return allProducts
 }
 
-// scrapeAllProducts().then(result => {
-//     console.log("DONE:", result.length, "products")
-// }).catch(console.error)
-
-
+getProducts("https://www.s-kaupat.fi/tuotteet/hedelmat-ja-vihannekset-1/vihannekset/kurkut")
 
 module.exports = scrapeAllProducts
