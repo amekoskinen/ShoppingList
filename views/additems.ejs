@@ -22,26 +22,41 @@
       </div>
       <button type="submit" class="btn btn-primary">Find Items</button>
     </form>
+ </div>
+</div>
 
-    <div class="row">
-      <div class="col-md-8 offset-md-2">
-      <form action="/shoppinglist/additems" method="POST">
-      <% if (typeof products !== "undefined" && products){%>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      
+      <% if (typeof products !== "undefined" && products.length > 0){%>
+        <form action="/shoppinglist/additems" method="POST">
+        <div class="row row-cols-3 g-5 mx-auto">
         <% for (let i=0; i<products.length; i++) {%>
-        <div class="form-check m-2">
+        <div class="col product-card">
         <input class="form-check-input" type="checkbox" style="height:22px;width:22px;" class="mx-5" name="<%=products[i]%>" id="<%=i%>">
-        <label class="form-check-label h6" for="<%=i%>">
-          <%=products[i]%> - <%=prices[i]%> €
+        <label class="form-check-label h6 my-auto" for="<%=i%>">
+          <%=products[i]%> </br> <%=prices[i]%> €
         </label>
         </div>
         <%}%>
-        <button type="submit" class="btn btn-primary">Add items</button>
-      <%}%>
+        </div>
+      <button type="submit" class="btn btn-primary my-5">Add items</button> 
       </form>
-      </div>
+    <%}%>
     </div>
-
     </div>
-  </div>
   </div>
 </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <% if (err){ %>
+        <p class="h4 text-danger text-center bg-white "><%=err%>
+        </p> 
+      <%} %>
+    </div>
+  </div>
+</div>
+

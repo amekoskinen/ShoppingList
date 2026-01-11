@@ -16,6 +16,22 @@ async function connectDB() {
     }
 }
 
+function isValidUrl(str) {
+  try {
+    new URL(str);
+    return true;
+  } catch {
+    return false;
+  }
+}
+function isCorrectUrl(str){
+  if (str.substring(0,33) == "https://www.s-kaupat.fi/tuotteet/"){
+    return true;
+  }
+  return false;
+}
+
+
 router.use(methodOverride('_method'));
 
 router.get('/', (req, res) => {
@@ -39,24 +55,47 @@ router.get('/showlist', catchAsync(async(req,res) => {
     res.render('showlist', {products, allItems, totalPrice, additionalItems, overallPrice})
 }));
 
+
+
+
 router.get('/additems', (req,res) => {
-  res.render('addItems',{address: ""})
+  res.render('addItems',{products: [], prices:[], address: "", err: ""})
 })
 
-router.post('/getitems', catchAsync(async(req,res) => {
-  const address = await req.body.address;
-  const products = await findProducts(address)
-  const prices = await findPrices(address)
-  const pricesStr = []
-  for (let price of prices){
-    pricesStr.push(String(price))
+router.post('/getitems', async(req,res) => {
+    const address = await req.body.address;
+    if (!isValidUrl(address) || !isCorrectUrl(address)) {
+    return res.render('additems', {
+      products: [],
+      prices: [],
+      address: "",
+      err: "Invalid URL. Please enter a full URL starting with https://www.s-kaupat.fi/tuotteet"
+    });
+    }
+
+    try{
+      const products = await findProducts(address)
+      const prices = await findPrices(address)
+      const pricesStr = []
+      for (let price of prices){
+      pricesStr.push(String(price))
+      }
+    res.render('additems', {products, prices, address, err: ""})
+    }
+  catch(err){
+    let errorText = err;
+    console.log("CHECK THIS!", errorText)
+    res.render('additems', {products: [], prices: [], address: "", err : "ERROR!"})
+    
   }
-  res.render('additems', {products, prices, address})
-}))
+})
 
 router.post('/additems', catchAsync(async(req,res) => {
-  const newItems = Object.keys(req.body)
-  console.log(newItems)
+  try{
+    const newItems = Object.keys(req.body)}
+  catch{
+    console.log("CHECK THIS!")
+  }
 }))
 
 
