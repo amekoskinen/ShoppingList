@@ -35,7 +35,6 @@ const products = []
 try {
     const response = await axios(url)
     const html = response.data;
-    // console.log(html)
     const attr = await attribute(url)
     const $ = cheerio.load(html)
         $(`.${attr}`).each((_i, el) => {
@@ -94,6 +93,6 @@ async function scrapeAllProducts(){
     return allProducts
 }
 
-getProducts("https://www.s-kaupat.fi/tuotteet/hedelmat-ja-vihannekset-1/vihannekset/kurkut")
+
 
 module.exports = scrapeAllProducts

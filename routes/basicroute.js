@@ -7,7 +7,8 @@ const methodOverride = require('method-override');
 const Shoppinglist = require('../models/ShoppingList')
 const Additional = require('../models/Additional')
 const findAllItems = require('../utils/findprice')
-
+const findProducts = require('../webscraping/findProducts')
+const findPrices = require('../webscraping/findPrices')
 
 async function connectDB() {
     if (mongoose.connection.readyState === 0) {
@@ -38,6 +39,27 @@ router.get('/showlist', catchAsync(async(req,res) => {
     res.render('showlist', {products, allItems, totalPrice, additionalItems, overallPrice})
 }));
 
+router.get('/additems', (req,res) => {
+  res.render('addItems',{address: ""})
+})
+
+router.post('/getitems', catchAsync(async(req,res) => {
+  const address = await req.body.address;
+  const products = await findProducts(address)
+  const prices = await findPrices(address)
+  const pricesStr = []
+  for (let price of prices){
+    pricesStr.push(String(price))
+  }
+  res.render('additems', {products, prices, address})
+}))
+
+router.post('/additems', catchAsync(async(req,res) => {
+  const newItems = Object.keys(req.body)
+  console.log(newItems)
+}))
+
+
 router.post('/showlist/update', catchAsync(async(req,res) => {
   const data = await req.body;
   const ids = Object.keys(data)
@@ -56,6 +78,8 @@ router.post('/additional', catchAsync(async(req,res) => {
  await Additional.insertOne({name: item.additionalItemName, price: item.additionalItemPrice })
   res.redirect('/shoppinglist/showlist')
 }))
+
+
 
 router.delete('/additional/delete/:id', catchAsync(async(req,res) => {
   const id = req.params.id;

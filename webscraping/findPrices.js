@@ -12,22 +12,13 @@ async function connectDB() {
     }
 }
 
-async function getAllURL() {
-    const allAddresses = []
-    const result = await urlAddress.find()
-    for (let i=0; i<result.length; i++){
-        allAddresses.push(result[i].name)
-    }
-    return allAddresses;
-}
-
 function isNumber(value) {
     let numbers = ["0","1","2","3","4","5","6","7","8","9"]
     if (value in numbers){
         return true;
     }
 }
-async function getPrices(url) {
+async function findPrices(url) {
     const prices = []
     try{
         const response = await axios(url)
@@ -72,19 +63,4 @@ async function getPrices(url) {
         }
 }
 
-async function scrapeAllPrices(){
-    await connectDB()
-    const allPrices = []
-    const allAddresses = await getAllURL()
-    for (addr of allAddresses){
-        const prices = await getPrices(addr)
-        allPrices.push(...prices)
-    }
-    return allPrices
-}
-
-// scrapeAllPrices().then(result => {
-//     console.log("DONE:", result.length, "prices")
-// }).catch(console.error)
-
-module.exports = scrapeAllPrices
+module.exports = findPrices
