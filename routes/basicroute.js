@@ -8,6 +8,7 @@ const Shoppinglist = require('../models/ShoppingList')
 const Additional = require('../models/Additional')
 const Item = require('../models/Item')
 const URLaddresses = require('../models/urlAddress')
+const Notes = require('../models/Notes')
 
 const findAllItems = require('../utils/findprice')
 const findProducts = require('../webscraping/findProducts')
@@ -45,6 +46,7 @@ router.get('/showlist', catchAsync(async(req,res) => {
     await connectDB()
     const products = await Shoppinglist.find({})
     const additionalItems = await Additional.find({})
+    const notes = await Notes.findOne({})
     let allItems = 0
     let totalPrice = 0
     let overallPrice = 0
@@ -56,7 +58,7 @@ router.get('/showlist', catchAsync(async(req,res) => {
     for (let add of additionalItems){
       overallPrice = overallPrice+add.price
     }
-    res.render('showlist', {products, allItems, totalPrice, additionalItems, overallPrice})
+    res.render('showlist', {products, allItems, totalPrice, additionalItems, overallPrice, notes})
 }));
 
 
@@ -150,6 +152,14 @@ router.post('/additional', catchAsync(async(req,res) => {
   res.redirect('/shoppinglist/showlist')
 }))
 
+router.post('/notes/update', catchAsync(async(req,res) => {
+  await Notes.deleteMany({})
+  let newNotes = await req.body;
+  console.log(newNotes.notes.trim())
+  const notes = await new Notes({name: newNotes.notes.trim()})
+  await notes.save()
+  res.redirect('/shoppinglist/showlist')
+}))
 
 
 router.delete('/additional/delete/:id', catchAsync(async(req,res) => {

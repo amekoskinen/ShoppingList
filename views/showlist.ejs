@@ -162,11 +162,21 @@
                     <% } %>
                     </ul>
                     <hr/>
-                    <div class="d-flex flex-column mb-5 text-center">
+                    <div class="d-flex flex-column text-center">
                       <h5 class="text-uppercase">Total with additional items:</h5>
                       <h6><%= overallPrice %> €</h6>
                     </div>
-                  
+                    <hr/>
+                    <div>
+                      <h5 class="text-center">Notes:</h5>
+                      <div class="mb-3">
+                        <form action="/shoppinglist/notes/update" method="POST">
+    
+                        <textarea class="form-control mb-3 text-start" id="notes" name="notes" rows="2"><%=notes?.name || ""%></textarea>
+                        <button type="submit" class="btn btn-primary mx-auto d-block">Save Notes</button>
+                        </form>
+                      </div>
+                    </div>
                     <button
                       type="button"
                       data-mdb-button-init=""
@@ -178,7 +188,9 @@
                       Print
                     </button>
                   </div>
+                  
                 </div>
+                
               </div>
             </div>
           </div>
