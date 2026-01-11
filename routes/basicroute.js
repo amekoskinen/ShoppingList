@@ -6,9 +6,13 @@ const methodOverride = require('method-override');
 
 const Shoppinglist = require('../models/ShoppingList')
 const Additional = require('../models/Additional')
+const Item = require('../models/Item')
+const URLaddresses = require('../models/urlAddress')
+
 const findAllItems = require('../utils/findprice')
 const findProducts = require('../webscraping/findProducts')
 const findPrices = require('../webscraping/findPrices')
+const addItems = require('../utils/addNewItems');
 
 async function connectDB() {
     if (mongoose.connection.readyState === 0) {
@@ -30,7 +34,6 @@ function isCorrectUrl(str){
   }
   return false;
 }
-
 
 router.use(methodOverride('_method'));
 
@@ -63,7 +66,10 @@ router.get('/additems', (req,res) => {
 })
 
 router.post('/getitems', async(req,res) => {
+    let alreadyDB = false;
+    await connectDB()
     const address = await req.body.address;
+    const urlAddresses = await URLaddresses.find({})
     if (!isValidUrl(address) || !isCorrectUrl(address)) {
     return res.render('additems', {
       products: [],
@@ -80,7 +86,25 @@ router.post('/getitems', async(req,res) => {
       for (let price of prices){
       pricesStr.push(String(price))
       }
-    res.render('additems', {products, prices, address, err: ""})
+      for (let addr of urlAddresses){
+        if (addr.name == address){
+          alreadyDB = true;
+          console.log("Already in database.")
+        }
+      }
+      if (!alreadyDB){
+          let newAddress = new URLaddresses({name: address})
+          console.log(newAddress)
+          await newAddress.save()
+          for (let i=0; i<products.length; i++){
+              let newItem = new Item({name: products[i], price: prices[i], tempPrice: prices[i]})
+              await newItem.save()
+              console.log("SAVING")
+          }
+        }
+      
+  
+      res.render('additems', {products, prices, address, err: ""})
     }
   catch(err){
     let errorText = err;
@@ -91,11 +115,11 @@ router.post('/getitems', async(req,res) => {
 })
 
 router.post('/additems', catchAsync(async(req,res) => {
-  try{
-    const newItems = Object.keys(req.body)}
-  catch{
-    console.log("CHECK THIS!")
+  const newItems = Object.keys(req.body)
+  if (newItems){
+    console.log(newItems)
   }
+
 }))
 
 

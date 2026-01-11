@@ -1,20 +1,9 @@
 const mongoose = require('mongoose')
+const urlAddress = require('../models/urlAddress')
 
-async function connectDB() {
-    if (mongoose.connection.readyState === 0) {
-        await mongoose.connect('mongodb://127.0.0.1:27017/shoppingList');
-    }
-}
-
-
-const urlSchema = new mongoose.Schema({
-    name: String
-});
-
-const urlAddress = mongoose.model('urlAddress', urlSchema)
 
 async function seedURLaddresses(){
-    await connectDB()
+    await mongoose.connect('mongodb://127.0.0.1:27017/shoppingList')
     await urlAddress.deleteMany({})
     await urlAddress.insertMany([
     {name: "https://www.s-kaupat.fi/tuotteet/kodinhoito-ja-taloustarvikkeet/wc-paperit-talouspaperit-ja-nenaliinat/wc-paperit"},
@@ -48,15 +37,11 @@ async function seedURLaddresses(){
     {name: "https://www.s-kaupat.fi/tuotteet/kosmetiikka-ja-hygienia/suunhoito/hammastahnat"},
     {name: "https://www.s-kaupat.fi/tuotteet/kosmetiikka-ja-hygienia/suunhoito/hammastahnat?page=2"},
     {name: "https://www.s-kaupat.fi/tuotteet/pakasteet-1/jaatelot/jaatelopakkaukset?page=2"},
-]).then( function () {
-    console.log("success")
-})
+])
 }
 
-seedURLaddresses()
+//seedURLaddresses()
 
-
-module.exports = mongoose.models.urlAddress || mongoose.model('urlAddress', urlSchema)
 
 
 
