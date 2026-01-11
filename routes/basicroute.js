@@ -42,6 +42,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/showlist', catchAsync(async(req,res) => {
+    await connectDB()
     const products = await Shoppinglist.find({})
     const additionalItems = await Additional.find({})
     let allItems = 0
@@ -116,10 +117,17 @@ router.post('/getitems', async(req,res) => {
 
 router.post('/additems', catchAsync(async(req,res) => {
   const newItems = Object.keys(req.body)
-  if (newItems){
-    console.log(newItems)
+  console.log("This:" ,newItems)
+  if (newItems.length == 0){
+    res.redirect('/shoppinglist/additems')
   }
-
+  for (let item of newItems){
+    let newPrice = await Item.findOne({name: item})
+    let price = newPrice.price;
+    let newItem = new Shoppinglist({name: item, price: price, oldPrice: price, quantity: 0})
+    await newItem.save()
+  }
+  res.redirect('/shoppinglist/showlist')
 }))
 
 
