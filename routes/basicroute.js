@@ -69,6 +69,34 @@ router.get('/showlist', catchAsync(async(req,res) => {
 router.get('/additems', (req,res) => {
   res.render('addItems',{products: [], prices:[], address: "", err: ""})
 })
+router.get('/print', catchAsync(async(req,res) => {
+  await connectDB()
+    const products = await Shoppinglist.find({})
+    const additionalItems = await Additional.find({})
+    const notes = await Notes.findOne({})
+    const budget = await Budget.findOne({})
+    let allItems = 0
+    let totalPrice = 0
+    let overallPrice = 0
+    for (let product of products){
+      allItems = allItems+product.quantity
+      totalPrice = totalPrice+(product.price*product.quantity)
+    }
+    totalPrice = totalPrice.toFixed(2)
+    overallPrice = Number(totalPrice)
+    for (let add of additionalItems){
+      overallPrice = overallPrice+add.price
+    }
+    overallPrice = Number(overallPrice).toFixed(2)
+    let moneyLeft = (budget.money-overallPrice).toFixed(2)
+  res.render('print', {products, allItems, totalPrice, additionalItems, overallPrice, notes, budget, moneyLeft})
+}))
+
+router.get('/printpage', (req,res) => {
+  window.print()
+  res.redirect('/shoppinglist/showlist');
+})
+
 
 router.post('/getitems', async(req,res) => {
     let alreadyDB = false;
