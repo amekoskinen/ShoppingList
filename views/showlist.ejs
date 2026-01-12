@@ -85,14 +85,16 @@
                     <hr class="my-4" />
                     <% } %>
                     <div class="pt-5">
-                      <h6 class="mb-0">
-                        <a href="/shoppinglist" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary">
+                          Check Prices&Save List</button>
+                        <a href="/shoppinglist/additems" class="btn btn-danger">
+                          Add Items
+                        </a>
+                        <a href="/shoppinglist" class="btn btn-info">
                           Back to Home Page
                         </a>
-                        <button type="submit" class="btn btn-warning">
-                          Check Prices</button>
                         </form>
-                          </h6>
+                          
                       </h6>
                       
                     </div>
@@ -175,6 +177,28 @@
                         <textarea class="form-control mb-3 text-start" id="notes" name="notes" rows="2"><%=notes?.name || ""%></textarea>
                         <button type="submit" class="btn btn-primary mx-auto d-block">Save Notes</button>
                         </form>
+                      </div>
+                    </div>
+                    <hr/>
+                    <div>
+                      <h5 class="text-center">My Budget:</h5>
+                      
+                        <div class="col-6 offset-3 budgetForm">
+                        <form action="/shoppinglist/budget/update" method="POST">
+                        <div class="mb-3 input-group">
+                          <input type="number" class="form-control mb-3 text-end" min="0" max="1000" step="0.01" id="budget" name="budget" value='<%=budget.money || ""%>'>
+                        <div class="input-group-append">
+                          <span class="input-group-text">€</span>
+                        </div>
+                        <button type="submit" class="btn btn-primary mx-auto d-block">Update Budget</button>
+                        </form>
+                        </div>
+                      </div>
+                    <hr/>
+                    <div>
+                      <h5 class="text-center mb-3">Money Left:</h5>
+                      <div class="mb-3">
+                        <h6 class="text-center"><%=moneyLeft || ""%> €</h6>
                       </div>
                     </div>
                     <button

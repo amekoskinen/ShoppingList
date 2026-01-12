@@ -9,6 +9,7 @@ const Additional = require('../models/Additional')
 const Item = require('../models/Item')
 const URLaddresses = require('../models/urlAddress')
 const Notes = require('../models/Notes')
+const Budget = require('../models/Budget')
 
 const findAllItems = require('../utils/findprice')
 const findProducts = require('../webscraping/findProducts')
@@ -47,6 +48,7 @@ router.get('/showlist', catchAsync(async(req,res) => {
     const products = await Shoppinglist.find({})
     const additionalItems = await Additional.find({})
     const notes = await Notes.findOne({})
+    const budget = await Budget.findOne({})
     let allItems = 0
     let totalPrice = 0
     let overallPrice = 0
@@ -54,15 +56,15 @@ router.get('/showlist', catchAsync(async(req,res) => {
       allItems = allItems+product.quantity
       totalPrice = totalPrice+(product.price*product.quantity)
     }
-    overallPrice = totalPrice
+    totalPrice = totalPrice.toFixed(2)
+    overallPrice = Number(totalPrice)
     for (let add of additionalItems){
       overallPrice = overallPrice+add.price
     }
-    res.render('showlist', {products, allItems, totalPrice, additionalItems, overallPrice, notes})
+    overallPrice = Number(overallPrice).toFixed(2)
+    let moneyLeft = (budget.money-overallPrice).toFixed(2)
+    res.render('showlist', {products, allItems, totalPrice, additionalItems, overallPrice, notes, budget, moneyLeft})
 }));
-
-
-
 
 router.get('/additems', (req,res) => {
   res.render('addItems',{products: [], prices:[], address: "", err: ""})
@@ -158,6 +160,14 @@ router.post('/notes/update', catchAsync(async(req,res) => {
   console.log(newNotes.notes.trim())
   const notes = await new Notes({name: newNotes.notes.trim()})
   await notes.save()
+  res.redirect('/shoppinglist/showlist')
+}))
+
+router.post('/budget/update', catchAsync(async(req,res) => {
+  await Budget.deleteMany({})
+  let newBudget = await req.body;
+  const budget = await new Budget({money: newBudget.budget.trim()})
+  await budget.save()
   res.redirect('/shoppinglist/showlist')
 }))
 
