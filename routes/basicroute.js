@@ -3,6 +3,7 @@ const router = express.Router();
 const catchAsync = require('../utils/catchAsync')
 const mongoose = require('mongoose')
 const methodOverride = require('method-override');
+const flash = require('connect-flash');
 
 const Shoppinglist = require('../models/ShoppingList')
 const Additional = require('../models/Additional')
@@ -69,6 +70,7 @@ router.get('/showlist', catchAsync(async(req,res) => {
 router.get('/additems', (req,res) => {
   res.render('addItems',{products: [], prices:[], address: "", err: ""})
 })
+
 router.get('/print', catchAsync(async(req,res) => {
   await connectDB()
     const products = await Shoppinglist.find({})
@@ -153,6 +155,7 @@ router.post('/additems', catchAsync(async(req,res) => {
     let newPrice = await Item.findOne({name: item})
     let price = newPrice.price;
     let newItem = new Shoppinglist({name: item, price: price, oldPrice: price, quantity: 0})
+    req.flash('success', 'New item added!');
     await newItem.save()
   }
   res.redirect('/shoppinglist/showlist')

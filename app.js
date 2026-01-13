@@ -4,6 +4,11 @@ const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
+const session = require('express-session');
+const flash = require('connect-flash');
+
+const sessionOptions = { secret: 'NOTCONFIGURED', resave: false, saveUninitialized: false }
+
 const ExpressError = require('./utils/ExpressError');
 const catchAsync = require('./utils/catchAsync')
 const basicroute = require('./routes/basicroute')
@@ -25,8 +30,6 @@ async function resetShoppingList(){
 
 resetShoppingList()
 
-
-
 const app = express();
 
 app.engine('ejs', ejsMate);
@@ -38,11 +41,15 @@ app.set('strict routing', false);
 
 
 app.use(express.static('assets'))
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.messages = req.flash('success');
+    next();
+})
 
 app.use('/shoppinglist', basicroute);
-
-
-
 
 app.get('/', (req, res) => {
   res.redirect('/shoppinglist')
