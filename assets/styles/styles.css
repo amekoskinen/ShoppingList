@@ -1,45 +1,50 @@
+:root {
+  --primary-bg-color: rgb(54, 116, 181);
+  --secondary-bg-color: rgb(161, 227, 249);
+  --tertiary-bg-color: rgb(87, 143, 202);
+  --bar-color: rgb(4, 4, 73);
+  --border-color: rgb(15, 40, 84);
+  --primary-color: #D1F8EF;
+}
+
+.bar-style{
+  background-color: var(--bar-color);
+}
+
 body{
     margin:0;
     padding:0;
     width: 100%;
     height: 100%;
     min-height: 100vh;
-    background-color: #4988C4;
+    background-color: var(--primary-bg-color)
 }
 
 
 .homepage{
-    background-image: linear-gradient(to right, rgb(189,232,245,0.5), rgb(189, 232, 245,1));
+    background-color: var(--secondary-bg-color);
     height: 100%;
     min-height: 100vh;
-    box-shadow: 5px 10px 8px #888888;
+    box-shadow: 5px 5px 5px black;
 }
 
 .homepage-box{
     width: 40%;
     margin: auto;
-    border: 1px #0F2854 solid;
+    border: 1px var(--border-color) solid;
     border-radius: 5px;
-    box-shadow: 5px 10px 8px #888888;
-    background-color: #1C4D8D;
-    color: white;
+    box-shadow: 5px 10px 8px var(--primary-bg-color);
+    background-color: var(--tertiary-bg-color);
+    color: black;
 }
 
 .product-card{
     height: 100px;
-    border: 1px #0F2854 solid;
+    border: 1px var(--border-color) solid;
     border-radius: 5px;
-    box-shadow: 5px 10px 8px #888888;
-    background-color: #1C4D8D;
+    box-shadow: 5px 10px 8px var(--primary-bg-color);
+    background-color: var(--tertiary-bg-color);
     color: white;
-}
-
-
-.colors {
-    background-color: #0F2854;
-    background-color: #1C4D8D;
-    background-color: #4988C4;
-    background-color: #BDE8F5;
 }
 
 .budgetForm input[type="number"] {
@@ -53,16 +58,6 @@ body{
     margin: 0;
     line-height: 80%;
   }
-  #printableArea {
-    page-break-after: always;
-  }
-
-  /* Hide everything after the first page */
-  #printableArea ~ * {
-    display: none !important;
-  }
-
-
   a {
     display: none;
   }  
@@ -72,7 +67,6 @@ body{
   p{
     font-size: 10px;
   }
-
 }
 
 
