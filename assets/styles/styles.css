@@ -46,6 +46,40 @@ body{
   appearance: textfield;
 }
 
+@media print {
+  *{
+    border: none;
+    background-color: white;
+    margin: 0;
+    line-height: 80%;
+  }
+  #printableArea {
+    page-break-after: always;
+  }
+
+  /* Hide everything after the first page */
+  #printableArea ~ * {
+    display: none !important;
+  }
+
+
+  a {
+    display: none;
+  }  
+  .printButtons {
+    display: none;
+  }
+  p{
+    font-size: 10px;
+  }
+
+}
+
+
+
+
+
+
 
 
 

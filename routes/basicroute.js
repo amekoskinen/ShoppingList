@@ -92,10 +92,6 @@ router.get('/print', catchAsync(async(req,res) => {
   res.render('print', {products, allItems, totalPrice, additionalItems, overallPrice, notes, budget, moneyLeft})
 }))
 
-router.get('/printpage', (req,res) => {
-  window.print()
-  res.redirect('/shoppinglist/showlist');
-})
 
 
 router.post('/getitems', async(req,res) => {

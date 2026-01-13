@@ -1,4 +1,23 @@
 <% layout('layouts/boilerplate') -%>
+<script>
+    function printDiv(divName) {
+    const printContents = document.getElementById(divName).innerHTML;
+    const originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = `
+        <html>
+            <head>
+                <title>Print</title>
+                <link rel="stylesheet" href="/path/to/bootstrap.css">
+            </head>
+            <body>${printContents}</body>
+        </html>
+    `;
+
+    window.print();
+    document.body.innerHTML = originalContents;
+}
+</script>
 
 <section class="pb-4 flex-grow-1">
   <div class="border rounded-3 homepage">
@@ -16,83 +35,76 @@
         }
       </style>
       <div class="row">
-        <div class="col-12">
-          <div
+        <div class="col-12" id="printableArea">
+            <div
             class="card card-registration card-registration-2"
             style="border-radius: 20px"
           >
             <div class="card-body p-0">
               <div class="row g-0">
-                <div class="col-lg-8">
+                <div class="col-lg-9">
                   <div class="p-5">
-                    <div
-                      class="d-flex justify-content-between align-items-center mb-5"
-                    >
-                      <h1 class="fw-bold mb-0">Shopping List</h1>
-                      <h6 class="mb-0 text-muted"><%=allItems%> items</h6>
-                    </div>
-                    <hr/>
+                    
                     <% for (let product of products) { %>
                         <% if (product.quantity > 0){%>
                     <div class="row d-flex justify-content-between align-items-center">
-                      <div class="col-md-3 col-lg-3 col-xl-3">
-                        <p><%=product.name%></p>
+                      <div class="col-md-7 col-lg-7 col-xl-7">
+                        <p class="text-uppercase"><%=product.name%></p>
                       </div>
-                      <div class="col-md-3 col-lg-3 col-xl-3">
-                        <p><strong><%=product.quantity%></strong> pc(s)</p>
+                      <div class="col-md-2 col-lg-1 col-xl-1">
+                        <p><strong><%=product.quantity%></strong>pcs</p>
                       </div>
-                      <div class="col-md-2 col-lg-2 col-xl-2">
-                        <p>price: <%= product.price %> €</p>
+                      <div class="col-md-1 col-lg-1 col-xl-1">
+                        <p><%= product.price %>€</p>
                       </div>
                     </div>
                         <% } %>
                     <% } %>
                     <hr/>
                     <div class="pt-5">
-                        <button onclick="window.print()">Print this page</button>
-                        <a href="/shoppinglist/showlist" class="btn btn-danger">
+                        <input class="btn btn-primary printButtons" type="button" onclick="printDiv('printableArea')" value="Print List" />
+                        <a href="/shoppinglist/showlist" class="btn btn-danger printButtons">
                           Back to Shopping List
                         </a>
-                        <a href="/shoppinglist" class="btn btn-info">
+                        <a href="/shoppinglist" class="btn btn-info printButtons">
                           Back to Home Page
                         </a>
                     </div>
                   </div>
                 </div>
 
-                <div class="col-lg-4 bg-body-tertiary">
+                <div class="col-lg-2 bg-body-tertiary">
                   <div class="p-5">
-                    <h3 class="fw-bold mb-3 mt-2 pt-1">Summary</h3>
-                    <hr class="my-4" />
-                    <div class="d-flex justify-content-between mb-4">
-                      <h5 class="text-uppercase">ALL ITEMS</h5>
-                      <h5><%= totalPrice %> €</h5>
+                    <div class="mb-3">
+                      <p class="text-uppercase font-weight-bold">ALL ITEMS:</p>
+                      <p><%= totalPrice %> €</p>
                     </div>
                     <div class="mb-3">
-                        <h5 class="text-uppercase text-start">Additional expenses</h5>
+                        <p class="text-uppercase text-start font-weight-bold">Additional expenses:</p>
                         <% for (let add of additionalItems) { %>
-                        <h6><%= add.name %>: <%= add.price %> €</h6>
+                        <p><%= add.name %></p>
+                        <p><%= add.price %> €</p>
                         <% } %>
                     </div>
-                    <div class="d-flex flex-column text-start">
-                      <h5 class="text-uppercase">Total with additional items:</h5>
-                      <h6><%= overallPrice %> €</h6>
+                    <div class="text-start">
+                      <p class="text-uppercase font-weight-bold">Total:</p>
+                      <p><%= overallPrice %> €</p>
                     </div>
                     <div>
-                      <h5 class="text-start">Notes:</h5>
+                      <p class="text-uppercase text-start font-weight-bold">Notes:</p>
                       <div class="mb-1">
-                        <h6><%=notes?.name || ""%></h6>
+                        <p><%=notes?.name || ""%></p>
                       </div>
                     </div>
                     
                     <div>
-                      <h5 class="text-start">My Budget:</h5>
-                      <h6><%=budget.money || ""%> €</h6>
+                      <p class="text-uppercase text-start font-weight-bold">My Budget:</p>
+                      <p><%=budget.money || ""%> €</p>
                       </div>
                     <div>
-                      <h5 class="text-start mb-3">Money Left:</h5>
+                      <p class="text-uppercase text-start mb-3">Money Left:</p>
                       <div class="mb-3">
-                        <h6 class="text-start"><%=moneyLeft || ""%> €</h6>
+                        <p class="text-start"><%=moneyLeft || ""%> €</p>
                       </div>
                     </div>
                   </div>
@@ -101,6 +113,7 @@
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
