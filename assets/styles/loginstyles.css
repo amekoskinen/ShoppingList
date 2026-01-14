@@ -1,0 +1,96 @@
+:root {
+  --primary-bg-color: #3674b5;
+  --secondary-bg-color: #a1e3f9;
+  --tertiary-bg-color: #578fca;
+  --bar-color: rgb(4, 4, 73);
+  --border-color: rgb(15, 40, 84);
+  --primary-color: #D1F8EF;
+}
+
+body {
+    font-family: "Lato", sans-serif;
+    margin:0;
+    padding:0;
+    background: #A1E3F9;
+    background: linear-gradient(270deg,rgba(161, 227, 249, 1) 0%, rgba(87, 143, 202, 1) 50%, rgba(54, 116, 181, 1) 100%);
+}
+
+.main-head{
+    height: 150px;
+    background: #FFF;
+   
+}
+
+.sidenav {
+    height: 100%;
+    background-image: url('/images/background.png');
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+.sidenav h2{
+    color: var(--bar-color)
+}
+.sidenav p{
+    color: var(--border-color)
+}
+
+.login-main-text{
+    margin-top: 20%;
+    padding: 60px;
+}
+
+.login-main-text h2{
+    font-weight: 500;
+}
+
+.login-form{
+    border: 1px var(--border-color) solid;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 5px 10px 8px var(--primary-bg-color);
+    padding-top: 5%;
+    padding-bottom: 5%;
+    margin-left: 10%;
+}
+
+
+
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+}
+
+@media screen and (max-width: 450px) {
+    .login-form{
+        margin-top: 10%;
+    }
+
+    .register-form{
+        margin-top: 10%;
+    }
+}
+
+@media screen and (min-width: 768px){
+    .main{
+        margin-left: 40%; 
+    }
+
+    .sidenav{
+        width: 40%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+    }
+
+    .login-form{
+        margin-top: 80%;
+    }
+
+    .register-form{
+        margin-top: 20%;
+    }
+}
+
+
+

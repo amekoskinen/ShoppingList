@@ -12,6 +12,7 @@ const sessionOptions = { secret: 'NOTCONFIGURED', resave: false, saveUninitializ
 const ExpressError = require('./utils/ExpressError');
 const catchAsync = require('./utils/catchAsync')
 const basicroute = require('./routes/basicroute')
+const loginroute = require('./routes/loginroute')
 const ShoppingList = require('./models/ShoppingList')
 
 mongoose.connect('mongodb://127.0.0.1:27017/shoppingList');
@@ -50,10 +51,9 @@ app.use((req, res, next) => {
 })
 
 app.use('/shoppinglist', basicroute);
+app.use('/', loginroute);
 
-app.get('/', (req, res) => {
-  res.redirect('/shoppinglist')
-});
+
 
 app.all('/{*any}', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404));
