@@ -16,6 +16,7 @@ const findAllItems = require('../utils/findprice')
 const findProducts = require('../webscraping/findProducts')
 const findPrices = require('../webscraping/findPrices')
 const addItems = require('../utils/addNewItems');
+const {isLoggedIn} =  require('../utils/middleware')
 
 async function connectDB() {
     if (mongoose.connection.readyState === 0) {
@@ -44,7 +45,7 @@ router.get('/', (req, res) => {
   res.render('index')
 });
 
-router.get('/showlist', catchAsync(async(req,res) => {
+router.get('/showlist', isLoggedIn, catchAsync(async(req,res) => {
     await connectDB()
     const products = await Shoppinglist.find({})
     const additionalItems = await Additional.find({})
@@ -67,11 +68,11 @@ router.get('/showlist', catchAsync(async(req,res) => {
     res.render('showlist', {products, allItems, totalPrice, additionalItems, overallPrice, notes, budget, moneyLeft})
 }));
 
-router.get('/additems', (req,res) => {
+router.get('/additems', isLoggedIn, (req,res) => {
   res.render('addItems',{products: [], prices:[], address: "", err: ""})
 })
 
-router.get('/print', catchAsync(async(req,res) => {
+router.get('/print', isLoggedIn, catchAsync(async(req,res) => {
   await connectDB()
     const products = await Shoppinglist.find({})
     const additionalItems = await Additional.find({})
@@ -96,18 +97,14 @@ router.get('/print', catchAsync(async(req,res) => {
 
 
 
-router.post('/getitems', async(req,res) => {
+router.post('/getitems', isLoggedIn, async(req,res) => {
     let alreadyDB = false;
     await connectDB()
     const address = await req.body.address;
     const urlAddresses = await URLaddresses.find({})
     if (!isValidUrl(address) || !isCorrectUrl(address)) {
-    return res.render('additems', {
-      products: [],
-      prices: [],
-      address: "",
-      err: "Invalid URL. Please enter a full URL starting with https://www.s-kaupat.fi/tuotteet"
-    });
+      req.flash('error','Invalid URL. Please enter a full URL starting with https://www.s-kaupat.fi/tuotteet')
+      return res.redirect('/shoppinglist/additems')
     }
 
     try{
@@ -135,7 +132,7 @@ router.post('/getitems', async(req,res) => {
         }
       
   
-      res.render('additems', {products, prices, address, err: ""})
+      res.render('additems', {products, prices, address})
     }
   catch(err){
     let errorText = err;
@@ -145,7 +142,7 @@ router.post('/getitems', async(req,res) => {
   }
 })
 
-router.post('/additems', catchAsync(async(req,res) => {
+router.post('/additems', isLoggedIn, catchAsync(async(req,res) => {
   const newItems = Object.keys(req.body)
   console.log("This:" ,newItems)
   if (newItems.length == 0){
@@ -162,7 +159,7 @@ router.post('/additems', catchAsync(async(req,res) => {
 }))
 
 
-router.post('/showlist/update', catchAsync(async(req,res) => {
+router.post('/showlist/update', isLoggedIn, catchAsync(async(req,res) => {
   const data = await req.body;
   const ids = Object.keys(data)
   await findAllItems()
@@ -175,13 +172,13 @@ router.post('/showlist/update', catchAsync(async(req,res) => {
   res.redirect('/shoppinglist/showlist')
 }))
 
-router.post('/additional', catchAsync(async(req,res) => {
+router.post('/additional', isLoggedIn, catchAsync(async(req,res) => {
   const item = await req.body;
  await Additional.insertOne({name: item.additionalItemName, price: item.additionalItemPrice })
   res.redirect('/shoppinglist/showlist')
 }))
 
-router.post('/notes/update', catchAsync(async(req,res) => {
+router.post('/notes/update', isLoggedIn, catchAsync(async(req,res) => {
   await Notes.deleteMany({})
   let newNotes = await req.body;
   console.log(newNotes.notes.trim())
@@ -190,7 +187,7 @@ router.post('/notes/update', catchAsync(async(req,res) => {
   res.redirect('/shoppinglist/showlist')
 }))
 
-router.post('/budget/update', catchAsync(async(req,res) => {
+router.post('/budget/update', isLoggedIn, catchAsync(async(req,res) => {
   await Budget.deleteMany({})
   let newBudget = await req.body;
   const budget = await new Budget({money: newBudget.budget.trim()})
@@ -199,7 +196,7 @@ router.post('/budget/update', catchAsync(async(req,res) => {
 }))
 
 
-router.delete('/additional/delete/:id', catchAsync(async(req,res) => {
+router.delete('/additional/delete/:id', isLoggedIn, catchAsync(async(req,res) => {
   const id = req.params.id;
   await Additional.findByIdAndDelete(id);
   res.redirect('/shoppinglist/showlist')

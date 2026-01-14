@@ -15,14 +15,26 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link text-white" href="/shoppinglist/">Home</a>
-        <a class="nav-link text-white" href="/shoppinglist/showlist"
-          >All Items</a
-        >
-        <a class="nav-link text-white" href="/shoppinglist/additems"
-          >Add Items</a
-        >
+      <div class="d-flex flex-row justify-content-between w-100">
+        <div class="navbar-nav">
+          <a class="nav-link text-white" href="/shoppinglist/">Home</a>
+          <a class="nav-link text-white" href="/shoppinglist/showlist"
+            >All Items</a
+          >
+          <a class="nav-link text-white" href="/shoppinglist/additems"
+            >Add Items</a
+          >
+        </div>
+        <div class="navbar-nav">
+          <form action="/logout" method="POST">
+            <button
+              class="nav-link text-white ml-auto px-5 btn btn-danger"
+              href="/logout"
+            >
+              Logout
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
