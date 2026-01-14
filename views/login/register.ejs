@@ -14,50 +14,59 @@
   </head>
 
   <body>
-    <div class="sidenav">
-      <div class="login-main-text">
-        <h2>
-          Shopping List<br />
-          Register Page
-        </h2>
-        <p>Login or register from here to access.</p>
-      </div>
-    </div>
-    <div class="main">
-      <div class="col-md-6 col-sm-12">
-        <div class="login-form d-flex justify-content-center">
+    <main
+      class="container d-flex justify-content-center align-items-center min-vh-100"
+    >
+      <div class="row shadow-lg rounded overflow-hidden login-wrapper">
+        <div
+          class="col-5 sidenav d-flex flex-column justify-content-center text-white p-4"
+        >
+          <h2 class="fw-bold mb-3">
+            Shopping List<br />
+            Login Page
+          </h2>
+          <p>Login or register from here to access.</p>
+        </div>
+
+        <div class="col-md-7 col-sm-12 bg-white p-4">
           <form action="/register" method="POST">
             <div class="form-group">
-              <label>User Name</label>
+              <label class="form-label" for="username">User Name</label>
               <input
                 type="text"
                 class="form-control my-3"
                 placeholder="User Name"
                 name="username"
+                id="username"
               />
             </div>
             <div class="form-group">
-              <label>Email</label>
+              <label class="form-label" for="email">Email</label>
               <input
                 type="email"
                 class="form-control my-3"
-                placeholder="Email"
+                placeholder="User Name"
                 name="email"
+                id="email"
               />
             </div>
             <div class="form-group">
-              <label>Password</label>
+              <label class="form-label" for="password">Password</label>
               <input
                 type="password"
                 class="form-control my-3"
                 placeholder="Password"
                 name="password"
+                id="password"
               />
             </div>
-            <button type="submit" class="btn btn-primary my-3">Register</button>
+
+            <button type="submit" class="btn btn-primary w-100 my-3">
+              Register
+            </button>
           </form>
         </div>
       </div>
-    </div>
+    </main>
   </body>
 </html>
