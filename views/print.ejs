@@ -19,9 +19,9 @@
 }
 </script>
 
-<section class="pb-4 flex-grow-1">
-  <div class="border rounded-3 homepage">
-    <section class="px-4 py-3 w-100">
+<section class="pb-2 flex-grow-1">
+  <div class="homepage">
+    <section class="px-3 py-3 w-100">
       <style>
         .card-registration
           .select-input.form-control[readonly]:not([disabled]) {
@@ -42,16 +42,16 @@
           >
             <div class="card-body p-0">
               <div class="row g-0">
-                <div class="col-lg-9">
-                  <div class="p-5">
+                <div class="col-lg-10">
+                  <div class="p-3">
                     
                     <% for (let product of products) { %>
                         <% if (product.quantity > 0){%>
                     <div class="row d-flex justify-content-between align-items-center">
-                      <div class="col-md-7 col-lg-7 col-xl-7">
+                      <div class="col-md-8 col-lg-7 col-xl-7">
                         <p class="text-uppercase"><%=product.name%></p>
                       </div>
-                      <div class="col-md-2 col-lg-1 col-xl-1">
+                      <div class="col-md-1 col-lg-1 col-xl-1">
                         <p><strong><%=product.quantity%></strong>pcs</p>
                       </div>
                       <div class="col-md-1 col-lg-1 col-xl-1">

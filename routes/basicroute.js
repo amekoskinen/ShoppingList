@@ -104,7 +104,6 @@ router.post('/getcategory', isLoggedIn, async(req,res) => {
       req.flash('error','Invalid URL. Please enter a full URL starting with https://www.s-kaupat.fi/tuotteet')
       return res.redirect('/shoppinglist/additems')
     }
-
     try{
       const products = await findProducts(address)
       const prices = await findPrices(address)
@@ -128,13 +127,10 @@ router.post('/getcategory', isLoggedIn, async(req,res) => {
               console.log("SAVING")
           }
         }
-      
-  
       res.render('additems', {products, prices, address, productName: ""})
-    }
-  catch(err){
+    } catch(err) {
     let errorText = err;
-    console.log("CHECK THIS!", errorText)
+    console.log("THERE WAS ERROR!", errorText)
     res.render('additems', {products: [], prices: [], address: "", err : "ERROR!"})
     
   }
@@ -148,10 +144,17 @@ router.post('/getitems', isLoggedIn, async(req,res) => {
     const prices=[]
     try{
       const matches = await Item.find({"name": { "$regex" : productName, "$options": "i"}})
+      console.log("THESE ARE", matches)
+      if (matches.length===0){
+        console.log("TESTI")
+        req.flash('error',"Couldn't find any products, try sending url address, where you can find the product!")
+        return res.redirect('/shoppinglist/additems')
+      }
       for (let match of matches){
         products.push(match.name)
         prices.push(match.price)
       }
+
        res.render('additems', {products, prices, address:"", productName: productName})
       } catch(err) {
     let errorText = err;

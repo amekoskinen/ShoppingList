@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate') -%>
 
 <section class="pb-4 flex-grow-1">
-  <div class="border rounded-3 homepage">
+  <div class="homepage">
     <section class="px-4 py-3 w-100">
       <style>
         .card-registration
@@ -31,11 +31,11 @@
                       <h1 class="fw-bold mb-0">Shopping List</h1>
                       <h6 class="mb-0 text-muted"><%=allItems%> items</h6>
                     </div>
-                    <hr class="my-4" />
+                    <hr class="my-3" />
                     <form action="/shoppinglist/showlist/update" method="POST">
                     <% for (let product of products) { %>
                     <div
-                      class="row mb-2 d-flex justify-content-between align-items-center"
+                      class="row mb-2 d-flex justify-content-between align-items-center lh-1"
                     >
                       <div class="col-md-5 col-lg-5 col-xl-5">
                         <p class="mb-0"><%=product.name%></p>
