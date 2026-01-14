@@ -1,5 +1,4 @@
 const express = require('express');
-const port = 3000;
 const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
@@ -9,6 +8,7 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/User');
+const updateAllItems = require('./utils/database')
 
 const sessionOptions = { secret: 'NOTCONFIGURED', resave: false, saveUninitialized: false, 
         cookie: {
@@ -19,7 +19,6 @@ const sessionOptions = { secret: 'NOTCONFIGURED', resave: false, saveUninitializ
 }
 
 const ExpressError = require('./utils/ExpressError');
-const catchAsync = require('./utils/catchAsync')
 const basicroute = require('./routes/basicroute')
 const loginroute = require('./routes/loginroute')
 const ShoppingList = require('./models/ShoppingList')
@@ -38,7 +37,13 @@ async function resetShoppingList(){
   }
 }
 
-resetShoppingList()
+async function initDatabase() {
+  await updateAllItems()
+  await resetShoppingList()
+  console.log("INITIALIZED!")  
+}
+
+// initDatabase()    ACTIVATE LATER
 
 const app = express();
 
@@ -48,7 +53,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.set('strict routing', false);
-
 
 app.use(express.static('assets'))
 app.use(session(sessionOptions));
@@ -72,12 +76,9 @@ app.use((req, res, next) => {
 app.use('/shoppinglist', basicroute);
 app.use('/', loginroute);
 
-
-
 app.all('/{*any}', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404));
 });
-
 
 app.use((err, req, res, next) => {
   const { statusCode = 500 } = err;
@@ -85,6 +86,6 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render('error', { err });
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(3000, () => {
+  console.log(`Server is running on http://localhost:3000`);
 });

@@ -2,9 +2,8 @@ const axios = require('axios')
 const cheerio = require('cheerio')
 
 const mongoose = require('mongoose')
-const urlAddress = require('../seeds/urlAddresses');
+const urlAddress = require('../models/urlAddress');
 const {attribute} = require('../utils/checkAttribute')
-let url = "https://www.s-kaupat.fi/tuotteet/maito-munat-ja-rasvat-0/munat"
 
 async function connectDB() {
     if (mongoose.connection.readyState === 0) {

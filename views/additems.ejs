@@ -1,9 +1,41 @@
 <% layout('layouts/boilerplate') -%>
+<% if (!address){ %>
 <div class="row">
   <div class="col-md-6 offset-md-3">
     <form
       class="form-inline my-5 text-center text-light"
       action="/shoppinglist/getitems"
+      method="POST"
+    >
+      <div class="form-group">
+        <label for="name" class="h3">Product Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="productName"
+          class="form-control mx-sm-3"
+          aria-describedby="addressHelp"
+          value="<%=productName%>"
+        />  
+        <p id="itemHelp" class="text-muted">
+          Write the product you are trying to add.
+        </p>
+      </div>
+      <button type="submit" class="btn btn-primary">Find Items</button>
+      <% if (productName){ %>
+      <a href="/shoppinglist/additems" class="btn btn-success">Go Back</a>
+      <% } %>
+    </form>
+ </div>
+</div>
+<% } %>
+
+<% if (!productName){ %>
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <form
+      class="form-inline my-5 text-center text-light"
+      action="/shoppinglist/getcategory"
       method="POST"
     >
       <div class="form-group">
@@ -21,14 +53,16 @@
         </p>
       </div>
       <button type="submit" class="btn btn-primary">Find Items</button>
+      <% if (address){ %>
+      <a href="/shoppinglist/additems" class="btn btn-success">Go Back</a>
+      <% } %> 
     </form>
  </div>
 </div>
-
+<% } %>
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-12">
-      
       <% if (typeof products !== "undefined" && products.length > 0){%>
         <form action="/shoppinglist/additems" method="POST">
         <div class="row row-cols-3 g-5 mx-auto">
@@ -41,7 +75,7 @@
         </div>
         <%}%>
         </div>
-      <button type="submit" class="btn btn-primary my-5">Add items</button> 
+      <button type="submit" class="btn btn-primary my-5">Add items</button>
       </form>
     <%}%>
     </div>

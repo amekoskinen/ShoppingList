@@ -69,7 +69,7 @@ router.get('/showlist', isLoggedIn, catchAsync(async(req,res) => {
 }));
 
 router.get('/additems', isLoggedIn, (req,res) => {
-  res.render('addItems',{products: [], prices:[], address: "", err: ""})
+  res.render('addItems',{products: [], prices:[], address: "", err: "", productName: ""})
 })
 
 router.get('/print', isLoggedIn, catchAsync(async(req,res) => {
@@ -95,9 +95,7 @@ router.get('/print', isLoggedIn, catchAsync(async(req,res) => {
   res.render('print', {products, allItems, totalPrice, additionalItems, overallPrice, notes, budget, moneyLeft})
 }))
 
-
-
-router.post('/getitems', isLoggedIn, async(req,res) => {
+router.post('/getcategory', isLoggedIn, async(req,res) => {
     let alreadyDB = false;
     await connectDB()
     const address = await req.body.address;
@@ -132,7 +130,7 @@ router.post('/getitems', isLoggedIn, async(req,res) => {
         }
       
   
-      res.render('additems', {products, prices, address})
+      res.render('additems', {products, prices, address, productName: ""})
     }
   catch(err){
     let errorText = err;
@@ -140,7 +138,29 @@ router.post('/getitems', isLoggedIn, async(req,res) => {
     res.render('additems', {products: [], prices: [], address: "", err : "ERROR!"})
     
   }
+});
+
+
+router.post('/getitems', isLoggedIn, async(req,res) => {
+    await connectDB()
+    const productName = await req.body.productName;
+    const products=[]
+    const prices=[]
+    try{
+      const matches = await Item.find({"name": { "$regex" : productName, "$options": "i"}})
+      for (let match of matches){
+        products.push(match.name)
+        prices.push(match.price)
+      }
+       res.render('additems', {products, prices, address:"", productName: productName})
+      } catch(err) {
+    let errorText = err;
+    console.log("CHECK THIS!", errorText)
+    res.render('additems', {products: [], prices: [], address: "", err : "ERROR!"})
+    
+  }
 })
+
 
 router.post('/additems', isLoggedIn, catchAsync(async(req,res) => {
   const newItems = Object.keys(req.body)

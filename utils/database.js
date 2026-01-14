@@ -3,15 +3,10 @@ const getProducts = require('../webscraping/productScraping')
 const getPrices = require('../webscraping/priceScraping')
 const Item = require('../models/Item')
 
-async function connectDB() {
+async function updateAllItems(){
     if (mongoose.connection.readyState === 0) {
         await mongoose.connect('mongodb://127.0.0.1:27017/shoppingList');
     }
-}
-
-
-async function addItems(){
-    await connectDB()
     await Item.deleteMany({})
     const products = await getProducts()
     const prices = await getPrices()
@@ -21,11 +16,12 @@ async function addItems(){
             await newItem.save()
         }
     }
-    console.log("finished")
+    console.log("All items found")
+    console.log(`${products.length} products in the database`)
     
 }
 
-addItems()
+module.exports = updateAllItems
 
 
 
