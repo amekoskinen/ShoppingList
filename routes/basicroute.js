@@ -16,7 +16,8 @@ const findAllItems = require('../utils/findprice')
 const findProducts = require('../webscraping/findProducts')
 const findPrices = require('../webscraping/findPrices')
 const addItems = require('../utils/addNewItems');
-const {isLoggedIn} =  require('../utils/middleware')
+const {isLoggedIn} =  require('../utils/middleware');
+const { UserExistsError } = require('passport-local-mongoose/dist/lib/errors');
 
 async function connectDB() {
     if (mongoose.connection.readyState === 0) {
@@ -47,8 +48,9 @@ router.get('/', (req, res) => {
 
 router.get('/showlist', isLoggedIn, catchAsync(async(req,res) => {
     await connectDB()
-    const products = await Shoppinglist.find({})
-    const additionalItems = await Additional.find({})
+    console.log(req.user._id)
+    const products = await Shoppinglist.find({user: req.user._id})
+    const additionalItems = await Additional.find({user: req.user._id})
     const notes = await Notes.findOne({})
     const budget = await Budget.findOne({})
     let allItems = 0
@@ -174,7 +176,7 @@ router.post('/additems', isLoggedIn, catchAsync(async(req,res) => {
   for (let item of newItems){
     let newPrice = await Item.findOne({name: item})
     let price = newPrice.price;
-    let newItem = new Shoppinglist({name: item, price: price, oldPrice: price, quantity: 0})
+    let newItem = new Shoppinglist({name: item, price: price, oldPrice: price, quantity: 0, user: req.user._id})
     req.flash('success', 'New item added!');
     await newItem.save()
   }
@@ -197,7 +199,7 @@ router.post('/showlist/update', isLoggedIn, catchAsync(async(req,res) => {
 
 router.post('/additional', isLoggedIn, catchAsync(async(req,res) => {
   const item = await req.body;
-  await Additional.insertOne({name: item.additionalItemName, price: item.additionalItemPrice })
+  await Additional.insertOne({name: item.additionalItemName, price: item.additionalItemPrice, user: req.user._id})
   res.redirect('/shoppinglist/showlist')
 }))
 
@@ -205,7 +207,7 @@ router.post('/notes/update', isLoggedIn, catchAsync(async(req,res) => {
   await Notes.deleteMany({})
   let newNotes = await req.body;
   console.log(newNotes.notes.trim())
-  const notes = await new Notes({name: newNotes.notes.trim()})
+  const notes = await new Notes({name: newNotes.notes.trim(), user: req.user._id})
   await notes.save()
   res.redirect('/shoppinglist/showlist')
 }))
@@ -213,7 +215,7 @@ router.post('/notes/update', isLoggedIn, catchAsync(async(req,res) => {
 router.post('/budget/update', isLoggedIn, catchAsync(async(req,res) => {
   await Budget.deleteMany({})
   let newBudget = await req.body;
-  const budget = await new Budget({money: newBudget.budget.trim()})
+  const budget = await new Budget({money: newBudget.budget.trim(), user: req.user._id})
   await budget.save()
   res.redirect('/shoppinglist/showlist')
 }))
