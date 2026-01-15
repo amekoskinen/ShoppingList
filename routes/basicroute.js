@@ -197,7 +197,7 @@ router.post('/showlist/update', isLoggedIn, catchAsync(async(req,res) => {
 
 router.post('/additional', isLoggedIn, catchAsync(async(req,res) => {
   const item = await req.body;
- await Additional.insertOne({name: item.additionalItemName, price: item.additionalItemPrice })
+  await Additional.insertOne({name: item.additionalItemName, price: item.additionalItemPrice })
   res.redirect('/shoppinglist/showlist')
 }))
 
@@ -218,10 +218,17 @@ router.post('/budget/update', isLoggedIn, catchAsync(async(req,res) => {
   res.redirect('/shoppinglist/showlist')
 }))
 
+router.delete('/delete/:id', isLoggedIn, catchAsync(async(req,res) => {
+  const id = req.params.id;
+  await Shoppinglist.findByIdAndDelete(id);
+  req.flash('success', 'Item deleted!')
+  res.redirect('/shoppinglist/showlist')
+}))
 
 router.delete('/additional/delete/:id', isLoggedIn, catchAsync(async(req,res) => {
   const id = req.params.id;
   await Additional.findByIdAndDelete(id);
+  req.flash('success', 'Additional item deleted!')
   res.redirect('/shoppinglist/showlist')
 }))
 

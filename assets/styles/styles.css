@@ -7,6 +7,18 @@
   --primary-color: #D1F8EF;
 }
 
+
+main {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+
+
 .bar-style{
   background-color: var(--bar-color);
 }
@@ -64,6 +76,12 @@ main{
   appearance: textfield;
 }
 
+.delete-button{
+  background: none;
+  border:none;
+}
+
+
 @media print {
   *{
     border: none;
@@ -81,6 +99,8 @@ main{
     font-size: 10px;
   }
 }
+
+
 
 
 
