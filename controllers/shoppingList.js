@@ -1,10 +1,3 @@
-const express = require('express');
-const router = express.Router();
-const catchAsync = require('../utils/catchAsync')
-const mongoose = require('mongoose')
-const methodOverride = require('method-override');
-const flash = require('connect-flash');
-
 const Shoppinglist = require('../models/ShoppingList')
 const Additional = require('../models/Additional')
 const Item = require('../models/Item')
@@ -12,18 +5,19 @@ const URLaddresses = require('../models/urlAddress')
 const Notes = require('../models/Notes')
 const Budget = require('../models/Budget')
 
+const mongoose = require('mongoose')
+
 const findAllItems = require('../utils/findprice')
 const findProducts = require('../webscraping/findProducts')
 const findPrices = require('../webscraping/findPrices')
 const addItems = require('../utils/addNewItems');
-const {isLoggedIn} =  require('../utils/middleware');
-const { UserExistsError } = require('passport-local-mongoose/dist/lib/errors');
 
 async function connectDB() {
     if (mongoose.connection.readyState === 0) {
         await mongoose.connect('mongodb://127.0.0.1:27017/shoppingList');
     }
 }
+
 
 function isValidUrl(str) {
   try {
@@ -40,15 +34,10 @@ function isCorrectUrl(str){
   return false;
 }
 
-router.use(methodOverride('_method'));
 
-router.get('/', (req, res) => {
-  res.render('index')
-});
 
-router.get('/showlist', isLoggedIn, catchAsync(async(req,res) => {
+module.exports.showShoppingList = async(req,res) => {
     await connectDB()
-    console.log(req.user._id)
     const products = await Shoppinglist.find({user: req.user._id})
     const additionalItems = await Additional.find({user: req.user._id})
     const notes = await Notes.findOne({})
@@ -68,13 +57,9 @@ router.get('/showlist', isLoggedIn, catchAsync(async(req,res) => {
     overallPrice = Number(overallPrice).toFixed(2)
     let moneyLeft = (budget.money-overallPrice).toFixed(2)
     res.render('showlist', {products, allItems, totalPrice, additionalItems, overallPrice, notes, budget, moneyLeft})
-}));
+}
 
-router.get('/additems', isLoggedIn, (req,res) => {
-  res.render('addItems',{products: [], prices:[], address: "", err: "", productName: ""})
-})
-
-router.get('/print', isLoggedIn, catchAsync(async(req,res) => {
+module.exports.renderPrintPage = async(req,res) => {
   await connectDB()
     const products = await Shoppinglist.find({})
     const additionalItems = await Additional.find({})
@@ -95,9 +80,9 @@ router.get('/print', isLoggedIn, catchAsync(async(req,res) => {
     overallPrice = Number(overallPrice).toFixed(2)
     let moneyLeft = (budget.money-overallPrice).toFixed(2)
   res.render('print', {products, allItems, totalPrice, additionalItems, overallPrice, notes, budget, moneyLeft})
-}))
+}
 
-router.post('/getcategory', isLoggedIn, async(req,res) => {
+module.exports.findItemsBasedOnUrl = async(req,res) => {
     let alreadyDB = false;
     await connectDB()
     const address = await req.body.address;
@@ -136,10 +121,9 @@ router.post('/getcategory', isLoggedIn, async(req,res) => {
     res.render('additems', {products: [], prices: [], address: "", err : "ERROR!"})
     
   }
-});
+}
 
-
-router.post('/getitems', isLoggedIn, async(req,res) => {
+module.exports.findItemsBasedOnName = async(req,res) => {
     await connectDB()
     const productName = await req.body.productName;
     const products=[]
@@ -164,10 +148,9 @@ router.post('/getitems', isLoggedIn, async(req,res) => {
     res.render('additems', {products: [], prices: [], address: "", err : "ERROR!"})
     
   }
-})
+}
 
-
-router.post('/additems', isLoggedIn, catchAsync(async(req,res) => {
+module.exports.addNewItems = async(req,res) => {
   const newItems = Object.keys(req.body)
   console.log("This:" ,newItems)
   if (newItems.length == 0){
@@ -181,10 +164,13 @@ router.post('/additems', isLoggedIn, catchAsync(async(req,res) => {
     await newItem.save()
   }
   res.redirect('/shoppinglist/showlist')
-}))
+}
 
+module.exports.renderAddItemsForm = (req,res) => {
+  res.render('addItems',{products: [], prices:[], address: "", err: "", productName: ""})
+}
 
-router.post('/showlist/update', isLoggedIn, catchAsync(async(req,res) => {
+module.exports.updatePricesAndQuantities = async(req,res) => {
   const data = await req.body;
   const ids = Object.keys(data)
   await findAllItems()
@@ -195,44 +181,42 @@ router.post('/showlist/update', isLoggedIn, catchAsync(async(req,res) => {
   )
 }
   res.redirect('/shoppinglist/showlist')
-}))
+}
 
-router.post('/additional', isLoggedIn, catchAsync(async(req,res) => {
+module.exports.addAdditionalItems = async(req,res) => {
   const item = await req.body;
   await Additional.insertOne({name: item.additionalItemName, price: item.additionalItemPrice, user: req.user._id})
   res.redirect('/shoppinglist/showlist')
-}))
+}
 
-router.post('/notes/update', isLoggedIn, catchAsync(async(req,res) => {
+module.exports.updateNotes = async(req,res) => {
   await Notes.deleteMany({})
   let newNotes = await req.body;
   console.log(newNotes.notes.trim())
   const notes = await new Notes({name: newNotes.notes.trim(), user: req.user._id})
   await notes.save()
   res.redirect('/shoppinglist/showlist')
-}))
+}
 
-router.post('/budget/update', isLoggedIn, catchAsync(async(req,res) => {
+module.exports.updateBudget = async(req,res) => {
   await Budget.deleteMany({})
   let newBudget = await req.body;
   const budget = await new Budget({money: newBudget.budget.trim(), user: req.user._id})
   await budget.save()
   res.redirect('/shoppinglist/showlist')
-}))
+}
 
-router.delete('/delete/:id', isLoggedIn, catchAsync(async(req,res) => {
-  const id = req.params.id;
+module.exports.deleteItem = async(req,res) => {
+  console.log(req.body)
+  const id = req.body.id
   await Shoppinglist.findByIdAndDelete(id);
   req.flash('success', 'Item deleted!')
   res.redirect('/shoppinglist/showlist')
-}))
+}
 
-router.delete('/additional/delete/:id', isLoggedIn, catchAsync(async(req,res) => {
+module.exports.deleteAdditionalItem = async(req,res) => {
   const id = req.params.id;
   await Additional.findByIdAndDelete(id);
   req.flash('success', 'Additional item deleted!')
   res.redirect('/shoppinglist/showlist')
-}))
-
-
-module.exports = router;
+}

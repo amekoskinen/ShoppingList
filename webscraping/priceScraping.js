@@ -36,7 +36,7 @@ async function getPrices(url) {
             const $ = cheerio.load(html)
             $(`.${attr}`).each((_i, el) => {
             let text = $(el).text()
-            if (url=="https://www.s-kaupat.fi/tuotteet/maito-munat-ja-rasvat-0/munat"){
+            if (url=="https://www.s-kaupat.fi/tuotteet/maito-munat-ja-rasvat/munat"){
                 text = text.replace("M10", "M10 ")
                 text = text.replace("L15", "L15 ")
                 text = text.replace("L10", "L10 ")
@@ -83,4 +83,4 @@ async function scrapeAllPrices(){
     return allPrices
 }
 
-module.exports = scrapeAllPrices
+module.exports = getPrices

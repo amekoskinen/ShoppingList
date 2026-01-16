@@ -19,8 +19,8 @@ const sessionOptions = { secret: 'NOTCONFIGURED', resave: false, saveUninitializ
 }
 
 const ExpressError = require('./utils/ExpressError');
-const basicroute = require('./routes/basicroute')
-const loginroute = require('./routes/loginroute')
+const shoppingListRoute = require('./routes/shoppingListRoute')
+const loginRoute = require('./routes/loginRoute')
 const ShoppingList = require('./models/ShoppingList')
 
 mongoose.connect('mongodb://127.0.0.1:27017/shoppingList');
@@ -66,15 +66,14 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-    console.log(req.session)
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
 })
 
-app.use('/shoppinglist', basicroute);
-app.use('/', loginroute);
+app.use('/shoppinglist', shoppingListRoute);
+app.use('/', loginRoute);
 
 app.all('/{*any}', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404));
