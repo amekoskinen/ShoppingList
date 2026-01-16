@@ -22,7 +22,10 @@ async function findProducts(url){
 await connectDB()
 const products = []
 try {
-    const response = await axios(url)
+    const response = await axios.get(url, {
+    validateStatus: status => status < 500
+    });
+
     const html = response.data;
     // console.log(html)
     const attr = await attribute(url)

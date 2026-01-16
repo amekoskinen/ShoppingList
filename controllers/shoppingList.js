@@ -1,40 +1,17 @@
 const Shoppinglist = require('../models/ShoppingList')
 const Additional = require('../models/Additional')
-const Item = require('../models/Item')
-const URLaddresses = require('../models/urlAddress')
 const Notes = require('../models/Notes')
 const Budget = require('../models/Budget')
 
 const mongoose = require('mongoose')
 
-const findAllItems = require('../utils/findprice')
-const findProducts = require('../webscraping/findProducts')
-const findPrices = require('../webscraping/findPrices')
-const addItems = require('../utils/addNewItems');
+const updateAllItems = require('../utils/updateShoppingListPrices')
 
 async function connectDB() {
     if (mongoose.connection.readyState === 0) {
         await mongoose.connect('mongodb://127.0.0.1:27017/shoppingList');
     }
 }
-
-
-function isValidUrl(str) {
-  try {
-    new URL(str);
-    return true;
-  } catch {
-    return false;
-  }
-}
-function isCorrectUrl(str){
-  if (str.substring(0,33) == "https://www.s-kaupat.fi/tuotteet/"){
-    return true;
-  }
-  return false;
-}
-
-
 
 module.exports.showShoppingList = async(req,res) => {
     await connectDB()
@@ -82,98 +59,10 @@ module.exports.renderPrintPage = async(req,res) => {
   res.render('print', {products, allItems, totalPrice, additionalItems, overallPrice, notes, budget, moneyLeft})
 }
 
-module.exports.findItemsBasedOnUrl = async(req,res) => {
-    let alreadyDB = false;
-    await connectDB()
-    const address = await req.body.address;
-    const urlAddresses = await URLaddresses.find({})
-    if (!isValidUrl(address) || !isCorrectUrl(address)) {
-      req.flash('error','Invalid URL. Please enter a full URL starting with https://www.s-kaupat.fi/tuotteet')
-      return res.redirect('/shoppinglist/additems')
-    }
-    try{
-      const products = await findProducts(address)
-      const prices = await findPrices(address)
-      const pricesStr = []
-      for (let price of prices){
-      pricesStr.push(String(price))
-      }
-      for (let addr of urlAddresses){
-        if (addr.name == address){
-          alreadyDB = true;
-          console.log("Already in database.")
-        }
-      }
-      if (!alreadyDB){
-          let newAddress = new URLaddresses({name: address})
-          console.log(newAddress)
-          await newAddress.save()
-          for (let i=0; i<products.length; i++){
-              let newItem = new Item({name: products[i], price: prices[i], tempPrice: prices[i]})
-              await newItem.save()
-              console.log("SAVING")
-          }
-        }
-      res.render('additems', {products, prices, address, productName: ""})
-    } catch(err) {
-    let errorText = err;
-    console.log("THERE WAS ERROR!", errorText)
-    res.render('additems', {products: [], prices: [], address: "", err : "ERROR!"})
-    
-  }
-}
-
-module.exports.findItemsBasedOnName = async(req,res) => {
-    await connectDB()
-    const productName = await req.body.productName;
-    const products=[]
-    const prices=[]
-    try{
-      const matches = await Item.find({"name": { "$regex" : productName, "$options": "i"}})
-      console.log("THESE ARE", matches)
-      if (matches.length===0){
-        console.log("TESTI")
-        req.flash('error',"Couldn't find any products, try sending url address, where you can find the product!")
-        return res.redirect('/shoppinglist/additems')
-      }
-      for (let match of matches){
-        products.push(match.name)
-        prices.push(match.price)
-      }
-
-       res.render('additems', {products, prices, address:"", productName: productName})
-      } catch(err) {
-    let errorText = err;
-    console.log("CHECK THIS!", errorText)
-    res.render('additems', {products: [], prices: [], address: "", err : "ERROR!"})
-    
-  }
-}
-
-module.exports.addNewItems = async(req,res) => {
-  const newItems = Object.keys(req.body)
-  console.log("This:" ,newItems)
-  if (newItems.length == 0){
-    res.redirect('/shoppinglist/additems')
-  }
-  for (let item of newItems){
-    let newPrice = await Item.findOne({name: item})
-    let price = newPrice.price;
-    let newItem = new Shoppinglist({name: item, price: price, oldPrice: price, quantity: 0, user: req.user._id})
-    req.flash('success', 'New item added!');
-    await newItem.save()
-  }
-  res.redirect('/shoppinglist/showlist')
-}
-
-module.exports.renderAddItemsForm = (req,res) => {
-  res.render('addItems',{products: [], prices:[], address: "", err: "", productName: ""})
-}
-
 module.exports.updatePricesAndQuantities = async(req,res) => {
   const data = await req.body;
   const ids = Object.keys(data)
-  await findAllItems()
+  await updateAllItems()
   for (let id of ids) {
     await Shoppinglist.findOneAndUpdate({ _id: id },
   { $set: { quantity: data[id] } },

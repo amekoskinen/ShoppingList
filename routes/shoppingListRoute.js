@@ -4,6 +4,7 @@ const catchAsync = require('../utils/catchAsync')
 const methodOverride = require('method-override');
 
 const shoppingList = require('../controllers/shoppingList')
+const addItems = require('../controllers/additems')
 
 const {isLoggedIn} =  require('../utils/middleware');
 
@@ -15,17 +16,17 @@ router.get('/', (req, res) => {
 
 router.get('/showlist', isLoggedIn, catchAsync(shoppingList.showShoppingList));
 
-router.get('/additems', isLoggedIn, shoppingList.renderAddItemsForm)
+router.get('/additems', isLoggedIn, addItems.renderAddItemsForm)
 
 router.get('/print', isLoggedIn, catchAsync(shoppingList.renderPrintPage))
 
-router.post('/getcategory', isLoggedIn, shoppingList.findItemsBasedOnUrl);
+router.post('/getcategory', isLoggedIn, addItems.findItemsBasedOnUrl);
 
 
-router.post('/getitems', isLoggedIn, shoppingList.findItemsBasedOnName)
+router.post('/getitems', isLoggedIn, addItems.findItemsBasedOnName)
 
 
-router.post('/additems', isLoggedIn, catchAsync(shoppingList.addNewItems))
+router.post('/additems', isLoggedIn, catchAsync(addItems.addNewItems))
 
 
 router.post('/showlist/update', isLoggedIn, catchAsync(shoppingList.updatePricesAndQuantities))

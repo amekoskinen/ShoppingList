@@ -8,7 +8,7 @@ async function connectDB() {
     }
 }
 
-async function findAllItems() {
+async function updateAllItems() {
     await connectDB();
     const allItems = await Item.find()
     const shoppingItems = await ShoppingList.find() 
@@ -21,7 +21,7 @@ async function findAllItems() {
         }
         catch(err){
             console.log(item.name)
-            console.error("CHECK THIS ITEM!")
+            console.error("There is a problem to update the price!")
         }
     }
     
@@ -30,4 +30,4 @@ async function findAllItems() {
 
 // findAllItems()
 
-module.exports = findAllItems
+module.exports = updateAllItems
