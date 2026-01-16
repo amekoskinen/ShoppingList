@@ -43,7 +43,7 @@ async function initDatabase() {
   console.log("INITIALIZED!")  
 }
 
-// initDatabase()    ACTIVATE LATER
+initDatabase()
 
 const app = express();
 

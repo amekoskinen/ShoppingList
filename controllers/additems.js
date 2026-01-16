@@ -62,10 +62,11 @@ module.exports.findItemsBasedOnUrl = async(req,res) => {
       if (!alreadyDB){
           let newAddress = new URLaddresses({name: address})
           await newAddress.save()
+          urlId = await urlAddresses.findOne({name: addr}).lean()
           for (let i=0; i<products.length; i++){
-              let newItem = new Item({name: products[i], price: prices[i], tempPrice: prices[i]})
+              let newItem = new Item({name: products[i], price: prices[i], url: urlId._id})
               await newItem.save()
-              console.log("Saving new items.")
+              console.log("Saving new items to database.")
           }
         }
       res.render('additems', {products, prices, address, productName: ""})
@@ -102,7 +103,6 @@ module.exports.findItemsBasedOnName = async(req,res) => {
 
 module.exports.addNewItems = async(req,res) => {
   const newItems = Object.keys(req.body)
-  console.log("This:" ,newItems)
   if (newItems.length == 0){
     res.redirect('/shoppinglist/additems')
   }

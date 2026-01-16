@@ -3,7 +3,6 @@ const getProducts = require('../webscraping/productScraping')
 const getPrices = require('../webscraping/priceScraping')
 const Item = require('../models/Item')
 const urlAddress = require('../models/urlAddress')
-const { addListener } = require('../models/User')
 
 async function getAllURL() {
     const allAddresses = []
@@ -33,7 +32,7 @@ async function updateAllItems(){
     }
     console.log("All items found")
 }
-// updateAllItems()
+//updateAllItems()
 
 module.exports = updateAllItems
 

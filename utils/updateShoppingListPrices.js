@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const ShoppingList = require('../models/ShoppingList')
 const Item = require('../models/Item')
+const express = require('express');
 
 async function connectDB() {
     if (mongoose.connection.readyState === 0) {
@@ -22,6 +23,7 @@ async function updateAllItems() {
         catch(err){
             console.log(item.name)
             console.error("There is a problem to update the price!")
+            return false;
         }
     }
     

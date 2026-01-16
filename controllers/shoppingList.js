@@ -62,13 +62,18 @@ module.exports.renderPrintPage = async(req,res) => {
 module.exports.updatePricesAndQuantities = async(req,res) => {
   const data = await req.body;
   const ids = Object.keys(data)
-  await updateAllItems()
+  const updatePrices = await updateAllItems()
+  if (!updatePrices){
+    req.flash('error','New prices are still updating. Please try again in a few minutes!')
+    return res.redirect('/shoppinglist/showlist')
+  }
   for (let id of ids) {
     await Shoppinglist.findOneAndUpdate({ _id: id },
   { $set: { quantity: data[id] } },
   { new: true }
   )
-}
+  }
+  req.flash('success', 'Prices checked and updated!')
   res.redirect('/shoppinglist/showlist')
 }
 
