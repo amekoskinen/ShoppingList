@@ -81,6 +81,10 @@ main{
   border:none;
 }
 
+.listNoStyling {
+  list-style: none;
+}
+
 
 @media print {
   *{
@@ -99,6 +103,7 @@ main{
     font-size: 10px;
   }
 }
+
 
 
 

@@ -80,6 +80,10 @@ module.exports.findItemsBasedOnUrl = async(req,res) => {
 module.exports.findItemsBasedOnName = async(req,res) => {
     await connectDB()
     const productName = await req.body.productName;
+    if(!req.body.productName){
+      req.flash('error', 'Please add a product name!')
+      return res.redirect('/shoppinglist/additems')
+    }
     const products=[]
     const prices=[]
     try{
@@ -110,8 +114,8 @@ module.exports.addNewItems = async(req,res) => {
     let newPrice = await Item.findOne({name: item})
     let price = newPrice.price;
     let newItem = new Shoppinglist({name: item, price: price, oldPrice: price, quantity: 0, user: req.user._id})
-    req.flash('success', 'New item added!');
     await newItem.save()
   }
+  req.flash('success', 'New item(s) added!');
   res.redirect('/shoppinglist/showlist')
 }

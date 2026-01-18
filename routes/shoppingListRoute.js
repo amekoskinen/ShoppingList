@@ -10,7 +10,7 @@ const {isLoggedIn} =  require('../utils/middleware');
 
 router.use(methodOverride('_method'));
 
-router.get('/', (req, res) => {
+router.get('/', isLoggedIn, (req, res) => {
   res.render('index')
 });
 

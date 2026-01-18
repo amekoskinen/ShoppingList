@@ -72,7 +72,7 @@
                       <div class="col-md-2 col-lg-2 col-xl-2">
                         <p class="mb-0"><%= product.price %> €</p>
                       </div>
-                      <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                      <div class="d-lg-none col-xl-1 text-end">
                         <% if (product.price>product.oldPrice && product.oldPrice!=0 ){%>
                           <img src="/images/red-arrow-up.png" height="25" width="25">
                         <% } %>

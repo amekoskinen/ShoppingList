@@ -71,20 +71,37 @@
         <div class="row row-cols-4 g-1 mx-auto">
         <% for (let i=0; i<products.length; i++) {%>
         <div class="col product-card d-flex justify-content-between align-items-start">
-        <label class="form-check-label h6 text-uppercase my-auto text-light mx-auto" for="<%=i%>">
-          <%=products[i]%> </br> <%=prices[i]%> €
+        <label class="form-check-label h6 text-uppercase my-2 mx-2 text-light" for="<%=i%>">
+          <p id="product<%=i%>"><%=products[i]%></p>
+          <p id="price<%=i%>"><%=prices[i]%> €</p>
         </label>
         <input class="form-check-input d-block ml-auto" type="checkbox" style="height:22px;width:22px;" class="mx-5" name="<%=products[i]%>" id="<%=i%>">
         </div>
         <%}%>
         </div>
-      <button type="submit" class="btn btn-primary my-5">Add items</button>
-      </form>
+      <button type="button" class="btn btn-primary my-5" data-bs-toggle="modal" data-bs-target="#addItemsVerify">Add items</button>
+      <div class="modal fade" id="addItemsVerify" tabindex="-1" aria-labelledby="addItemsVerifyLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addItemsVerifyLabel">Adding Items</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
     <%}%>
+    </form>
     </div>
     </div>
   </div>
 </div>
 </div>
-
+<script src="/javascripts/addCheckedItems.js"></script>
 
